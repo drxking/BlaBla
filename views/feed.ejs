@@ -17,7 +17,7 @@
             <div class="logo">
                 <a href="/feed"><img src="/images/favicon.png" class="h-14 w-14  invert mix-blend-screen brightness-125" alt=""></a>
             </div>
-            <a href="">
+            <a href="https://github.com/drxking/BlaBla">
                 <i><i class="ri-github-fill text-[35px]"></i></i>
             </a>
         </nav>
@@ -43,7 +43,9 @@
                             <i class="ri-more-2-fill  text-xl rotate-90"></i>
                         </div>
                         <div class="desc px-4 pb-2">
-                            <p class="leading-tight text-sm"><%=posts.description%></p>
+                            <p class="leading-tight text-sm"><%posts.description.split("\n").forEach((desc)=>{%>
+                                <%=desc%> <br>
+                            <%})%></p>
                         </div>
                         <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>" class="border-y border-gray-700 max-h-96 w-full object-cover" alt="">
                         <div class="buttons flex items-center gap-4 p-2">

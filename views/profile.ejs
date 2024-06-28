@@ -65,7 +65,9 @@
                             </div>
                             <div class="desc px-4 pb-2">
                                 <p class="leading-tight text-sm">
-                                    <%=posts.description%>
+                                    <%posts.description.split("\n").forEach((desc)=>{%>
+                                        <%=desc%> <br>
+                                            <%})%>
                                 </p>
                             </div>
                             <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"

@@ -84,8 +84,8 @@ module.exports.profileController = async (req, res) => {
         let user = await userModel.findOne({ email })
         let id = user._id
         let post = await postModel.find({userId:id}).populate("userId")
-        // console.log(post)
         user.bio = `Digital storyteller `
+        post.reverse()
         res.render('profile', { user,post })
     }
     catch (err) {
