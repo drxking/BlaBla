@@ -1,0 +1,11 @@
+@font-face {
+    font-family: mona;
+    src: url("/css/MonaSans-Regular.ttf");
+}
+*{
+    font-family: mona;
+}
+input:focus,
+textarea:focus{
+    outline: none;
+}

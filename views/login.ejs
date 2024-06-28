@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BlaBla</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body class="flex justify-center w-full">
+    <%if(flashMessage.length>0){%>
+        <div class="message absolute opacity-0 bg-red-500 py-3 px-4 rounded-xl capitalize animate-popup text-sm top-2 text-white">
+            <%=flashMessage%>
+        </div>
+        <%}%>
+            <main class=" w-full max-w-[420px] p-8 relative">
+                <h1 class="font-semibold text-[24px] mt-4">
+                    Login
+                </h1>
+                <p class="text-sm text-gray-600 mt-1">Welcome to Social club BlaBla!</p>
+                <form action="/user/loginvalidate" method="post" class="flex flex-col gap-2 pt-4 text-sm font-medium">
+
+                    <label class=" mt-1" for="email">Email*</label>
+                    <input required class="border border-gray-200 rounded-xl focus:outline-none py-3 px-4"
+                        placeholder="Example@gmail.com" type="email" name="email" autocomplete="off" id="email">
+                    <label class=" mt-1" for="password">Password*</label>
+                    <div class="w-full relative">
+                        <input required minlength="6"
+                            class="border w-full border-gray-200 rounded-xl focus:outline-none py-3 px-4"
+                            placeholder="Enter password" type="password" name="password" autocomplete="off"
+                            id="password">
+                        <i id="icon"
+                            class="ri-eye-line text-xl cursor-pointer right-3 top-1/2 -translate-y-1/2 absolute"></i>
+                    </div>
+                    <input type="submit" value="Continue"
+                        class="w-full bg-blue-700 font-semibold tracking-wider cursor-pointer text-white py-3 rounded-xl mt-4">
+
+                </form>
+                <div class="or w-full flex flex-col items-center py-4 gap-3">
+                    <p
+                        class="text-gray-500  after:absolute after:h-[2px] after:w-28 after:bg-gray-300  after:top-1/2 after:left-10  after:rounded-xl before:absolute before:h-[2px] before:w-28 before:bg-gray-300  before:top-1/2 before:right-10 before:rounded-xl relative">
+                        OR </p>
+                    <a href="/auth/google"
+                        class="w-full bg-gray-700 font-medium text-white text-sm py-3 rounded-xl mt-1 flex items-center justify-center gap-2">
+                        <img src="/images/icons8-google-480.svg" class="h-6"> Continue with Google</a>
+                    <p class="text-sm text-gray-600">Doesn't have account? <a class="underline text-blue-700" href="/user/signup">Signup</a></p>
+                </div>
+                <div class="footer absolute w-full -bottom-6 py-1 left-0">
+                    <p class="text-xs text-gray-600 text-center leading-snug">
+                        By login, you agree to our <br>
+                        Terms of service, Privacy Policy, Content Policy
+                    </p>
+                </div>
+            </main>
+            <script>
+                let icon = document.getElementById("icon")
+                let password = document.getElementById("password")
+                let live = false
+                icon.addEventListener("click", () => {
+                    if (!live) {
+                        icon.classList.remove("ri-eye-line")
+                        icon.classList.add("ri-eye-off-line")
+                        password.setAttribute("type", "text")
+                        live = true
+                    }
+                    else {
+                        icon.classList.remove("ri-eye-off-line")
+                        icon.classList.add("ri-eye-line")
+                        password.setAttribute("type", "password")
+                        live = false
+                    }
+                })
+            </script>
+</body>
+
+</html>

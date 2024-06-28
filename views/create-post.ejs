@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - BlaBla</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+</head>
+
+<body>
+
+    <body class="bg-gray-100 overflow-x-hidden flex justify-center">
+        <main class="w-full max-w-2xl">
+            <nav class=" z-10 py-3 px-4 flex items-center gap-3 border-y">
+                <a href="/user/profile"><i
+                        class="ri-arrow-left-line text-white text-3xl opacity-70 bg-gray-500 p-1 rounded-full"></i></a>
+                <p>Create post</p>
+            </nav>
+            <div class="top px-5 py-3 gap-1 flex items-center">
+                <img src="<%=user.oauthProfilePic%>" class="h-12 w-12 rounded-full">
+                <p class="font-semibold text-lg">
+                    <%=user.name%>
+                </p>
+            </div>
+            <form action="/post/upload/<%=user.email%>" method="post" enctype="multipart/form-data" class="flex flex-col px-5 gap-4">
+                <input type="file" name="picture" id="picture" class="">
+                <textarea name="description" id="description" class="h-80 bg-gray-200 rounded-lg resize-none p-4"
+                    placeholder="What's on your mind"></textarea>
+                <div class="w-full flex justify-end">
+
+                    <input class="bg-blue-600 p-2 px-10 text-white rounded-md w-fit" type="submit" value="Post">
+                </div>
+
+            </form>
+        </main>
+    </body>
+
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed - BlaBla</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+</head>
+
+<body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
+    <main class="w-full max-w-3xl">
+        <nav class="flex justify-between items-center px-4 py-1">
+            <div class="logo">
+                <a href="/feed"><img src="/images/favicon.png" class="h-14 w-14  invert mix-blend-screen brightness-125" alt=""></a>
+            </div>
+            <a href="">
+                <i><i class="ri-github-fill text-[35px]"></i></i>
+            </a>
+        </nav>
+        <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2">
+            <a href="/user/profile" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover" src="<%=user.oauthProfilePic%>"></a>
+            <a class="w-[90%] max-w-md" href="/post/create/<%=user.email%>"><input placeholder="What's on your mind!" type="text" class="px-4 h-full text-base placeholder:text-gray-700 bg-transparent border w-full border-gray-500 rounded-full pointer-events-none"></a>
+        </div>
+        <div class=" w-full text-white min-h-[60vh] py-2 px-2 flex flex-col items-center">
+            <!-- <hr class="border-gray-600"> -->
+            <div class="posts w-full max-w-xl">
+                <%post.forEach((posts)=>{%>
+                    <div class="post border border-gray-700  rounded-xl overflow-hidden mt-6">
+                        <div class="top px-4  py-3  flex items-center justify-between">
+                            <div class="left flex gap-2 items-center  ">
+                                <img src="<%=posts.userId.oauthProfilePic%>" class="h-9 w-9 rounded-full">
+                                <div class="right">
+                                    <p class="font-semibold text-base">
+                                        <%=posts.userId.name%>
+                                    </p>
+                                    <p class="text-[10px] leading-none text-gray-300">24 Feb</p>
+                                </div>
+                            </div>
+                            <i class="ri-more-2-fill  text-xl rotate-90"></i>
+                        </div>
+                        <div class="desc px-4 pb-2">
+                            <p class="leading-tight text-sm"><%=posts.description%></p>
+                        </div>
+                        <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>" class="border-y border-gray-700 max-h-96 w-full object-cover" alt="">
+                        <div class="buttons flex items-center gap-4 p-2">
+                            <div class="text-3xl  like"><i class="ri-star-line"></i></div>
+                            <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
+                            <div class="text-3xl  share"><i class="ri-share-forward-line"></i></div>
+                        </div>
+                    </div>
+                <%})%>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - <%=user.name%>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+</head>
+
+<body class="bg-gray-200 overflow-x-hidden flex justify-center">
+    <main class="w-full max-w-3xl">
+        <nav class="absolute z-10 p-4">
+            <a href="/feed"><i
+                    class="ri-arrow-left-line text-white text-3xl opacity-70 bg-gray-500 p-1 rounded-full"></i></a>
+        </nav>
+        <div class=" relative top h-32 w-ful">
+            <img src="/images/cover-pic.png" class="h-full w-full object-cover object-top rounded-b-3xl">
+            <div
+                class="profile absolute h-32 w-32 shadow-md rounded-full left-1/2 -translate-x-1/2 top-1/2  after:absolute after:w-[110%] after:h-[110%] after:border-4 after:bg-gray-300 after:border-purple-400 after:-z-10 after:rounded-full  after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2">
+                <img class="w-full h-full object-cover rounded-full" src="<%=user.oauthProfilePic%>">
+            </div>
+        </div>
+        <h1 class="mt-20 text-2xl font-semibold w-full text-center leading-none">
+            <%=user.name%>
+        </h1>
+        <p class="w-full text-center text-gray-500 text-sm mt-2 px-10">
+            <%=user.bio%>
+        </p>
+        <div class="buttons w-full flex justify-center items-center max-w-sm gap-1 px-0 mt-5 m-auto">
+            <a href="#" class="inline-block w-full ">
+                <button
+                    class="bg-blue-600 w-full tracking-tight text-white   text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+                    <i class="text-lg leading-tight ri-quill-pen-fill"></i>Edit profile</button>
+            </a>
+            <a href="/post/create/<%=user.email%>" class="inline-block w-full"><button
+                    class="bg-gray-600 w-full tracking-tight text-white   text-sm capitalize h-10  flex items-center justify-center rounded-lg gap-1">
+                    <i class="text-lg leading-tight ri-add-line"></i>Create Post</button></a>
+            <a href="#" class="inline-block"><button
+                    class="bg-gray-600 tracking-tight text-white px-2  w-10 text-sm capitalize h-10  flex items-center justify-center rounded-lg gap-1">
+                    <i class="ri-more-2-fill  text-xl rotate-90"></i></button></a>
+        </div>
+        <div class=" mt-7 w-full bg-[#111] text-white min-h-[60vh] rounded-t-3xl py-10 px-4 flex flex-col items-center">
+            <h1 class="text-2xl font-semibold py-1 px-2 w-full max-w-md">Posts</h1>
+            <!-- <hr class="border-gray-600"> -->
+            <div class="posts mt-4 w-full max-w-md">
+                <%if(post.length>0){%>
+                    <%post.forEach((posts)=>{%>
+                        <div class="post border border-gray-700  rounded-xl overflow-hidden mt-6">
+                            <div class="top px-4  py-3  flex items-center justify-between">
+                                <div class="left flex gap-2 items-center  ">
+                                    <img src="<%=posts.userId.oauthProfilePic%>" class="h-9 w-9 rounded-full">
+                                    <div class="right">
+                                        <p class="font-semibold text-base">
+                                            <%=posts.userId.name%>
+                                        </p>
+                                        <p class="text-[10px] leading-none text-gray-300">24 Feb</p>
+                                    </div>
+                                </div>
+                                <i class="ri-more-2-fill  text-xl rotate-90"></i>
+                            </div>
+                            <div class="desc px-4 pb-2">
+                                <p class="leading-tight text-sm">
+                                    <%=posts.description%>
+                                </p>
+                            </div>
+                            <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
+                                class="border-y border-gray-700 max-h-96 w-full object-cover" alt="">
+                            <div class="buttons flex items-center gap-4 p-2">
+                                <div class="text-3xl  like"><i class="ri-star-line"></i></div>
+                                <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
+                                <div class="text-3xl  share"><i class="ri-share-forward-line"></i></div>
+                            </div>
+                        </div>
+                        <%})%>
+                            <%}else{%>
+                                <p class="text-gray-500 text-sm ml-2">You don't have any post to Show!</p>
+                                <%}%>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
