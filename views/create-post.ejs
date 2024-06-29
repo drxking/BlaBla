@@ -13,7 +13,7 @@
 <body>
 
     <body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
-        <main class="w-full max-w-2xl">
+        <main class="w-full max-w-2xl mb-14">
             <nav class=" z-10 py-3 px-4  border-b border-gray-700">
                 <p class="text-xl font-semibold pl-4">Create post</p>
             </nav>
@@ -29,11 +29,12 @@
                 <div class="flex items-center">
                     <p
                         class="fake-file flex items-center bg-gray-300 text-black cursor-pointer text-sm w-fit px-5 py-1 rounded-lg">
-                        <i class="ri-image-2-fill text-xl text-black"></i> Choose a file </p>
+                        <i class="ri-image-2-fill text-xl text-black "></i> Choose a file </p>
                     <span class="leading-none text-sm pl-2 text-gray-200" id="custom-text">No file chosen, yet.</span>
 
                 </div>
-                <textarea name="description" id="description" class="h-80 bg-gray-200 text-black rounded-lg resize-none p-4"
+                <img id="imageDisplay" src="" alt="Selected Image" style="display:none;" class="max-w-[50%] border border-gray-700 rounded-md">
+                <textarea name="description" id="description" class="h-52 bg-gray-200 text-black rounded-lg resize-none p-4"
                     placeholder="What's on your mind"></textarea>
                 <div class="w-full flex justify-end">
 
@@ -45,8 +46,8 @@
     </body>
 
 
+    <%-include("footer.ejs")%>
 </body>
-<%-include("footer.ejs")%>
 
     <script>
         document.querySelector(".fake-file").addEventListener("click", () => {
@@ -55,6 +56,19 @@
         document.querySelector(".real-file").addEventListener("change", function () {
             const fileName = this.files[0].name;
             document.getElementById("custom-text").textContent = fileName;
+        });
+
+        document.querySelector('.real-file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imageDisplay');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
         });
     </script>
 
