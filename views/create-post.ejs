@@ -12,12 +12,10 @@
 
 <body>
 
-    <body class="bg-gray-100 overflow-x-hidden flex justify-center">
+    <body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
         <main class="w-full max-w-2xl">
-            <nav class=" z-10 py-3 px-4 flex items-center gap-3 border-y">
-                <a href="/user/profile"><i
-                        class="ri-arrow-left-line text-white text-3xl opacity-70 bg-gray-500 p-1 rounded-full"></i></a>
-                <p>Create post</p>
+            <nav class=" z-10 py-3 px-4  border-b border-gray-700">
+                <p class="text-xl font-semibold pl-4">Create post</p>
             </nav>
             <div class="top px-5 py-3 gap-1 flex items-center">
                 <img src="<%=user.oauthProfilePic%>" class="h-12 w-12 rounded-full">
@@ -25,9 +23,17 @@
                     <%=user.name%>
                 </p>
             </div>
-            <form action="/post/upload/<%=user.email%>" method="post" enctype="multipart/form-data" class="flex flex-col px-5 gap-4">
-                <input type="file" name="picture" id="picture" class="">
-                <textarea name="description" id="description" class="h-80 bg-gray-200 rounded-lg resize-none p-4"
+            <form action="/post/upload/<%=user.email%>" method="post" enctype="multipart/form-data"
+                class="flex flex-col px-5 gap-4">
+                <input type="file" name="picture" id="picture" class="real-file hidden">
+                <div class="flex items-center">
+                    <p
+                        class="fake-file flex items-center bg-gray-300 text-black cursor-pointer text-sm w-fit px-5 py-1 rounded-lg">
+                        <i class="ri-image-2-fill text-xl text-black"></i> Choose a file </p>
+                    <span class="leading-none text-sm pl-2 text-gray-200" id="custom-text">No file chosen, yet.</span>
+
+                </div>
+                <textarea name="description" id="description" class="h-80 bg-gray-200 text-black rounded-lg resize-none p-4"
                     placeholder="What's on your mind"></textarea>
                 <div class="w-full flex justify-end">
 
@@ -40,5 +46,16 @@
 
 
 </body>
+<%-include("footer.ejs")%>
+
+    <script>
+        document.querySelector(".fake-file").addEventListener("click", () => {
+            document.querySelector(".real-file").click()
+        })
+        document.querySelector(".real-file").addEventListener("change", function () {
+            const fileName = this.files[0].name;
+            document.getElementById("custom-text").textContent = fileName;
+        });
+    </script>
 
 </html>

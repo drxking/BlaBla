@@ -13,7 +13,7 @@ router.get('/callback',
         try {
             let token = jwt.sign({ email: req.user._json.email}, process.env.JWT_KEY)
             res.cookie("token", token)
-            res.redirect('/user/profile');
+            res.redirect('/feed');
         }
         catch (err) {
             res.status(500).send(err.message)

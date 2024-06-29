@@ -1,15 +1,17 @@
 const express = require("express");
-const { createController,uploadController } = require("../controllers/post-controller");
+const { createController, uploadController, deleteController } = require("../controllers/post-controller");
 const router = express.Router()
 
-const upload = require("../config/multer-config")
+const upload = require("../config/multer-config");
+const { isLoggedIn } = require("../middlewares/isLoggedin");
 
 
 
-router.get("/create/:user",createController)
+router.get("/create/:user",isLoggedIn, createController)
 
 
+router.get("/delete/:postId",isLoggedIn ,deleteController)
 
-router.post("/upload/:user",upload.single("picture"),uploadController)
+router.post("/upload/:user", upload.single("picture"), uploadController)
 module.exports = router;
 

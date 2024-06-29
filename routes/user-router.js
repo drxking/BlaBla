@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { signupController, signupValidateController, loginController, loginValidateController, profileController } = require("../controllers/user-controller")
+const { signupController, signupValidateController, loginController, loginValidateController, profileController, editController, updateController, logoutController } = require("../controllers/user-controller")
 const passport = require("passport")
 const jwt = require("jsonwebtoken")
 const { userModel } = require("../models/user-model")
@@ -19,6 +19,10 @@ router.post("/loginvalidate", loginValidateController)
 
 router.get("/profile", isLoggedIn,profileController)
 
+router.get("/edit",isLoggedIn,editController)
 
+router.post("/update/:userId",isLoggedIn,updateController)
+
+router.get("/logout",logoutController)
 
 module.exports = router;

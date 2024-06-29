@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>footer</title>
+</head>
+
+<body>
+
+    <div class="wrapper max-w-xl py-1 lg:rounded-t-3xl w-full fixed bottom-0 bg-[#222] border-t border-gray-600 flex items-center text-white justify-evenly">
+        <a href="/feed"><i class=" lg:text-[25px] text-[30px] ri-home-line"></i></a>
+        <a href="/post/create/<%=user.email%>"><i class=" lg:text-[25px]  text-[32px] ri-add-circle-line"></i></a>
+        <div class=" flex items-center justify-center">
+            <a href="/user/profile" class="lg:h-7 h-9 inline-block"><img class="h-full w-full rounded-full object-cover"
+                src="<%=user.oauthProfilePic%>"></a>
+        </div>
+    </div>
+</body>
+
+</html>

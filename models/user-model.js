@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
     },
     bio:{
         type:String,
-        default:"Created by BlaBla"
+        default:""
     }
 });
 

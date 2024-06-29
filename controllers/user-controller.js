@@ -30,8 +30,7 @@ module.exports.signupValidateController = async (req, res) => {
                 await userModel.findOneAndUpdate({ oauthId: oauthField }, { password: hash })
                 let token = jwt.sign({ email }, process.env.JWT_KEY)
                 res.cookie("token", token)
-                req.flash("message", "Signedup successfully!")
-                return res.redirect("/user/profile")
+                return res.redirect("/feed")
             }
 
         }
@@ -39,8 +38,7 @@ module.exports.signupValidateController = async (req, res) => {
         let createdUser = await userModel.create({ name, email, password: hash })
         let token = jwt.sign({ email }, process.env.JWT_KEY)
         res.cookie("token", token)
-        req.flash("message", "Signedup successfully!")
-        res.redirect("/user/profile")
+        res.redirect("/feed")
     }
     catch (err) {
         res.send(err.message).status(500)
@@ -66,10 +64,9 @@ module.exports.loginValidateController = async (req, res) => {
         if (!findUser) return req.flash("message", "Account with this email doesnot exists!"), res.redirect("/user/login");
         let hashCheck = await bcrypt.compare(password, findUser.password);
         if (!hashCheck) return req.flash("message", "Email or Password Doesnot match!"), res.redirect("/user/login")
-        req.flash("message", "Logged in Successfully")
-        let token = jwt.sign({ email }, process.env.JWT_KEY)
+            let token = jwt.sign({ email }, process.env.JWT_KEY)
         res.cookie("token", token)
-        res.redirect('/user/profile');
+        res.redirect('/feed');
     }
     catch (err) {
         res.send(err.message).status(500)
@@ -84,11 +81,29 @@ module.exports.profileController = async (req, res) => {
         let user = await userModel.findOne({ email })
         let id = user._id
         let post = await postModel.find({userId:id}).populate("userId")
-        user.bio = `Digital storyteller `
         post.reverse()
         res.render('profile', { user,post })
     }
     catch (err) {
         res.send(err.message).status(500)
     }
+}
+
+module.exports.editController = async (req,res)=>{
+    let token = req.cookies.token
+    let email = jwt.verify(token,process.env.JWT_KEY).email
+    let user = await userModel.findOne({email})
+    res.render("edit-profile",{user})
+}
+
+module.exports.updateController = async (req,res)=>{
+    let {name,bio} = req.body;
+    await userModel.findOneAndUpdate({_id:req.params.userId},{name,bio})
+    res.redirect("/user/profile")
+}
+
+module.exports.logoutController = async(req,res)=>{
+   res.clearCookie('token');
+   req.flash("message","Logged Out")
+   res.redirect("/user/login")
 }

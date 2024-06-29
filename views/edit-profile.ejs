@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit </title>
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body class="bg-[#111] text-white p-2 flex flex-col items-center">
+    <main class="w-full max-w-md mb-14">
+        <form action="/user/update/<%=user._id%>" class="w-full" method="post">
+
+
+            <h1 class="border-b border-gray-700 p-2">Edit Profile</h1>
+
+            <div class="pic p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                <h1 class="font-semibold text-xl mt w-full text-left">Profile Picture</h1>
+                <p class="w-full text-xs text-red-900 leading-none">• Changing Profile Pic option is not available yet!
+                </p>
+                <img class="w-32 h-32 rounded-full mt-4 border border-gray-800" src="<%=user.oauthProfilePic%>" alt="">
+            </div>
+            <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                <h1 class="font-semibold text-xl mt-2 w-full text-left">Change Name</h1>
+                <input type="text" name="name" class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md"
+                    value="<%=user.name%>">
+                <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can chnage your name anytime you want.
+                </p>
+            </div>
+            <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                <h1 class="font-semibold text-xl mt-2 w-full text-left">Bio</h1>
+                <textarea type="text" name="bio"
+                    class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md h-24 resize-none"><%=user.bio%></textarea>
+                <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can describe yourself in Bio to make
+                    First
+                    Impression</p>
+            </div>
+            <div class="div flex justify-end">
+
+                <input type="submit" value="Save" class="p-2 px-10 text-md m-2 bg-blue-600 rounded-md">
+            </div>
+        </form>
+        </main>
+    <%-include("footer.ejs")%>
+</body>
+
+</html>
