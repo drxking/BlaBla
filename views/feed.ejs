@@ -24,7 +24,7 @@
         </nav>
         <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2">
             <a href="/user/profile" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover"
-                    src="<%=user.oauthProfilePic%>"></a>
+                    src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
             <a class="w-[90%] max-w-md" href="/post/create/<%=user.email%>"><input placeholder="What's on your mind!"
                     type="text"
                     class="px-4 h-full text-base placeholder:text-gray-700 bg-transparent border w-full border-gray-500 rounded-full pointer-events-none"></a>
@@ -36,12 +36,17 @@
                     <div class="post border border-gray-700  rounded-xl overflow-hidden mt-6">
                         <div class="top px-4  py-3  flex items-center justify-between">
                             <div class="left flex gap-2 items-center  ">
-                                <img src="<%=posts.userId.oauthProfilePic%>" class="h-9 w-9 rounded-full">
+                                <img src="data:<%=posts.userId.picMimeType%>;base64,<%=(posts.userId.profilePic).toString('base64')%>"
+                                    class="h-9 w-9 object-cover inline-block rounded-full">
                                 <div class="right">
-                                    <p class="font-semibold text-base">
-                                        <%=posts.userId.name%>
+                                    <p class="font-semibold text-base leading-none">
+                                        <%=posts.userId.name%><span class="text-sm font-medium text-gray-300">
+                                                <%if(posts.status){%>
+                                                    <%=posts.status%>
+                                                        <%}%>
+                                            </span>
                                     </p>
-                                    <p class="text-[10px] leading-none text-gray-300">
+                                    <p class="text-[10px]  text-gray-300">
                                         <%=(posts.createdDate).toString().split(" ")[2]%> <%=(posts.createdDate).toString().split(" ")[1]%> <%=(posts.createdDate).toString().split(" ")[3]%></p>
                                 </div>
                             </div>
@@ -49,9 +54,11 @@
                                 </div>
                                 <div class="desc px-4 pb-2">
                                     <p class="leading-tight text-sm">
-                                        <%posts.description.split("\n").forEach((desc)=>{%>
-                                            <%=desc%> <br>
-                                                <%})%>
+                                        <%if(posts.description){%>
+                                            <%posts.description.split("\n").forEach((desc)=>{%>
+                                                <%=desc%> <br>
+                                                    <%})%>
+                                                        <%}%>
                                     </p>
                                 </div>
                                 <%if(posts.picture.length>0){%>

@@ -2,7 +2,8 @@ const { validator, userModel } = require("../models/user-model");
 const bcrypt = require("bcrypt")
 const log = require("debug")("development:userController")
 const jwt = require("jsonwebtoken")
-const {postModel} = require("../models/post-model")
+const { postModel } = require("../models/post-model");
+const { compress } = require("../utils/sharp");
 require("dotenv").config()
 
 module.exports.signupController = (req, res) => {
@@ -64,7 +65,7 @@ module.exports.loginValidateController = async (req, res) => {
         if (!findUser) return req.flash("message", "Account with this email doesnot exists!"), res.redirect("/user/login");
         let hashCheck = await bcrypt.compare(password, findUser.password);
         if (!hashCheck) return req.flash("message", "Email or Password Doesnot match!"), res.redirect("/user/login")
-            let token = jwt.sign({ email }, process.env.JWT_KEY)
+        let token = jwt.sign({ email }, process.env.JWT_KEY)
         res.cookie("token", token)
         res.redirect('/feed');
     }
@@ -80,30 +81,53 @@ module.exports.profileController = async (req, res) => {
         let email = jwt.verify(token, process.env.JWT_KEY).email
         let user = await userModel.findOne({ email })
         let id = user._id
-        let post = await postModel.find({userId:id}).populate("userId")
+        let post = await postModel.find({ userId: id }).populate("userId")
         post.reverse()
-        res.render('profile', { user,post })
+        res.render('profile', { user, post })
     }
     catch (err) {
         res.send(err.message).status(500)
     }
 }
 
-module.exports.editController = async (req,res)=>{
-    let token = req.cookies.token
-    let email = jwt.verify(token,process.env.JWT_KEY).email
-    let user = await userModel.findOne({email})
-    res.render("edit-profile",{user})
+module.exports.editController = async (req, res) => {
+    try{
+        let token = req.cookies.token
+    let email = jwt.verify(token, process.env.JWT_KEY).email
+    let user = await userModel.findOne({ email })
+    res.render("edit-profile", { user})
+    }
+    catch(err){
+        res.send(err.message).status(500)
+    }
 }
 
-module.exports.updateController = async (req,res)=>{
-    let {name,bio} = req.body;
-    await userModel.findOneAndUpdate({_id:req.params.userId},{name,bio})
-    res.redirect("/user/profile")
+module.exports.updateController = async (req, res) => {
+    try {
+        let { name, bio } = req.body;
+        if (req.file) {
+            let picMimeType = req.file.mimetype
+            let profilePic = await compress(req.file.buffer, 480)
+            let createdPost = await postModel.create({userId:req.params.userId,status:"updated the profile picture",picture:profilePic,})
+            let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio, picMimeType, profilePic },{new:true})
+            await user.posts.push(createdPost._id)
+            await user.save()
+            res.redirect("/user/profile")
+        }
+        else {
+            await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio })
+            res.redirect("/user/profile")
+
+        }
+
+    }
+    catch (err) {
+        res.send(err.message).status(500)
+    }
 }
 
-module.exports.logoutController = async(req,res)=>{
-   res.clearCookie('token');
-   req.flash("message","Logged Out")
-   res.redirect("/user/login")
+module.exports.logoutController = async (req, res) => {
+    res.clearCookie('token');
+    req.flash("message", "Logged Out")
+    res.redirect("/user/login")
 }

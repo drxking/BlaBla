@@ -1,5 +1,9 @@
 const joi = require("joi")
 const mongoose = require("mongoose")
+const fs = require('fs');
+const path = require("path")
+const defaultProfilePicPath = path.join(__dirname, '../public/images/profile-pic.png');
+const defaultProfilePicBuffer = fs.readFileSync(defaultProfilePicPath);
 
 const userSchema = mongoose.Schema({
     name: {
@@ -25,15 +29,15 @@ const userSchema = mongoose.Schema({
     },
     profilePic: {
         type: Buffer,
-        default: ''
+        default:defaultProfilePicBuffer
+    },
+    picMimeType:{
+        type:String,
+        default:"image/png"
     },
     oauthId:{
         type:String,
         default:''
-    },
-    oauthProfilePic:{
-        type:String,
-        default:"/images/profile-pic.png"
     },
     bio:{
         type:String,

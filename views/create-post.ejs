@@ -13,12 +13,12 @@
 <body>
 
     <body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
-        <main class="w-full max-w-2xl mb-14">
+        <main class="w-full max-w-xl mb-14">
             <nav class=" z-10 py-3 px-4  border-b border-gray-700">
                 <p class="text-xl font-semibold pl-4">Create post</p>
             </nav>
             <div class="top px-5 py-3 gap-1 flex items-center">
-                <img src="<%=user.oauthProfilePic%>" class="h-12 w-12 rounded-full">
+                <img src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>" class="h-12 w-12 object-cover rounded-full">
                 <p class="font-semibold text-lg">
                     <%=user.name%>
                 </p>

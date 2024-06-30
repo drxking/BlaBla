@@ -19,6 +19,10 @@ const postSchema = mongoose.Schema({
     mimetype:{
         type:String,
         default:"image/png"
+    },
+    status:{
+        type:String,
+        default:""
     }
 });
 

@@ -5,6 +5,9 @@ const passport = require("passport")
 const jwt = require("jsonwebtoken")
 const { userModel } = require("../models/user-model")
 const { isLoggedIn } = require("../middlewares/isLoggedin")
+const upload = require("../config/multer-config")
+
+
 router.get("/signup", signupController)
 
 
@@ -17,12 +20,12 @@ router.get("/login", loginController)
 router.post("/loginvalidate", loginValidateController)
 
 
-router.get("/profile", isLoggedIn,profileController)
+router.get("/profile", isLoggedIn, profileController)
 
-router.get("/edit",isLoggedIn,editController)
+router.get("/edit", isLoggedIn, editController)
 
-router.post("/update/:userId",isLoggedIn,updateController)
+router.post("/update/:userId", upload.single("profilePic"), updateController)
 
-router.get("/logout",logoutController)
+router.get("/logout", logoutController)
 
 module.exports = router;

@@ -25,8 +25,7 @@ passport.use(new GoogleStrategy({
                 await userModel.create({
                     name: userName,
                     email: userEmail,
-                    oauthId: userId,
-                    oauthProfilePic: userPicture
+                    oauthId: userId
                 })
             }
         }

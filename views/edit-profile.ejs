@@ -12,40 +12,78 @@
 </head>
 
 <body class="bg-[#111] text-white p-2 flex flex-col items-center">
-    <main class="w-full max-w-md mb-14">
-        <form action="/user/update/<%=user._id%>" class="w-full" method="post">
+            <main class="w-full max-w-md mb-14">
+                <form action="/user/update/<%=user._id%>" class="w-full" method="post" enctype="multipart/form-data">
 
 
-            <h1 class="border-b border-gray-700 p-2">Edit Profile</h1>
+                    <h1 class="border-b border-gray-700 p-2">Edit Profile</h1>
 
-            <div class="pic p-2 flex flex-col items-center border-b border-gray-700 pb-8">
-                <h1 class="font-semibold text-xl mt w-full text-left">Profile Picture</h1>
-                <p class="w-full text-xs text-red-900 leading-none">• Changing Profile Pic option is not available yet!
-                </p>
-                <img class="w-32 h-32 rounded-full mt-4 border border-gray-800" src="<%=user.oauthProfilePic%>" alt="">
-            </div>
-            <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
-                <h1 class="font-semibold text-xl mt-2 w-full text-left">Change Name</h1>
-                <input type="text" name="name" class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md"
-                    value="<%=user.name%>">
-                <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can chnage your name anytime you want.
-                </p>
-            </div>
-            <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
-                <h1 class="font-semibold text-xl mt-2 w-full text-left">Bio</h1>
-                <textarea type="text" name="bio"
-                    class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md h-24 resize-none"><%=user.bio%></textarea>
-                <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can describe yourself in Bio to make
-                    First
-                    Impression</p>
-            </div>
-            <div class="div flex justify-end">
+                    <div class="pic p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                        <h1 class="font-semibold text-xl mt w-full text-left">Profile Picture</h1>
+                        <p class="w-full text-xs text-red-900 leading-none">• Changing Profile Pic option is not
+                            available yet!
+                        </p>
+                        <img id="imageDisplay"
+                            class="w-32 h-32 object-cover rounded-full  mt-4 border border-gray-700 bg-green-300"
+                            src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>">
+                        <input class="real-file hidden" name="profilePic" type="file">
+                        <div class="flex items-center mt-4">
+                            <p
+                                class="fake-file flex items-center bg-gray-300 text-black cursor-pointer text-sm w-fit px-5 py-1 rounded-lg">
+                                <i class="ri-image-2-fill text-xl text-black "></i> Change Pic
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                        <h1 class="font-semibold text-xl mt-2 w-full text-left">Change Name</h1>
+                        <input type="text" name="name"
+                            class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md"
+                            value="<%=user.name%>">
+                        <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can chnage your name anytime you
+                            want.
+                        </p>
+                    </div>
+                    <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
+                        <h1 class="font-semibold text-xl mt-2 w-full text-left">Bio</h1>
+                        <textarea type="text" name="bio"
+                            class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md h-24 resize-none"><%=user.bio%></textarea>
+                        <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can describe yourself in Bio to
+                            make
+                            First
+                            Impression</p>
+                    </div>
+                    <div class="div flex justify-end">
 
-                <input type="submit" value="Save" class="p-2 px-10 text-md m-2 bg-blue-600 rounded-md">
-            </div>
-        </form>
-        </main>
-    <%-include("footer.ejs")%>
+                        <input type="submit" value="Save" class="p-2 px-10 text-md m-2 bg-blue-600 rounded-md">
+                    </div>
+                </form>
+            </main>
+            <%-include("footer.ejs")%>
+
+
+                <script>
+                    document.querySelector(".fake-file").addEventListener("click", () => {
+                        document.querySelector(".real-file").click()
+                    })
+                    document.querySelector(".real-file").addEventListener("change", function () {
+                        const fileName = this.files[0].name;
+                        document.getElementById("custom-text").textContent = fileName;
+                    });
+
+
+                    document.querySelector('.real-file').addEventListener('change', function (event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                const img = document.getElementById('imageDisplay');
+                                img.src = e.target.result;
+                                img.style.display = 'block';
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                </script>
 </body>
 
 </html>

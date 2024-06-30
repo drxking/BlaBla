@@ -14,7 +14,7 @@ module.exports.uploadController = async (req, res) => {
         let description = req.body.description;
         let user = await userModel.findOne({ email })
         if (req.file) {
-            let compressed = await compress(req.file.buffer)
+            let compressed = await compress(req.file.buffer,720)
             let post = await postModel.create({
                 userId: user.id,
                 description,
