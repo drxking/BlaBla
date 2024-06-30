@@ -34,16 +34,29 @@ app.use(cookieParser())
 app.use(connectFlash())
 
 app.get("/", async (req, res) => {
-    res.redirect("/user/login")
+    try {
+        let token = req.cookies.token
+        if (token) {
+            let data = jwt.verify(token, process.env.JWT_KEY).email
+            if (data) {
+                return res.redirect("/feed")
+            }
+        }
+        console.log(token)
+        res.redirect("/user/login")
+    }
+    catch (err) {
+        res.send(`Haha! Token Misplaced!!! Nice try: ${err.message}`).status(500)
+    }
 })
 
 app.use("/user", userRouter)
 
 app.use("/auth", authRouter)
 
-app.use("/post",postRouter)
+app.use("/post", postRouter)
 
-app.use("/feed",feedRouter)
+app.use("/feed", feedRouter)
 
 app.listen(process.env.PORT, () => {
     log(`Listening at port ${process.env.PORT}`)
