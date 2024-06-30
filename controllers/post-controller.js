@@ -4,7 +4,6 @@ const path = require("path")
 const { compress } = require("../utils/sharp")
 module.exports.createController = async (req, res) => {
     let user = await userModel.findOne({ email: req.params.user })
-    console.log
     res.render("create-post", { user })
 }
 
