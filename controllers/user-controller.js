@@ -6,6 +6,7 @@ const { postModel } = require("../models/post-model");
 const { compress } = require("../utils/sharp");
 require("dotenv").config()
 const sharp = require("sharp");
+const { UserName } = require("../utils/username");
 
 module.exports.signupController = (req, res) => {
     try {
@@ -36,8 +37,9 @@ module.exports.signupValidateController = async (req, res) => {
             }
 
         }
+        let username = UserName(name)
 
-        let createdUser = await userModel.create({ name, email, password: hash })
+        let createdUser = await userModel.create({ name, username, email, password: hash })
         let token = jwt.sign({ email }, process.env.JWT_KEY)
         res.cookie("token", token)
         res.redirect("/feed")
@@ -80,11 +82,15 @@ module.exports.profileController = async (req, res) => {
     try {
         let token = req.cookies.token
         let email = jwt.verify(token, process.env.JWT_KEY).email
-        let user = await userModel.findOne({ email })
-        let id = user._id
-        let post = await postModel.find({ userId: id }).populate("userId")
+        let user = await userModel.findOne({ username: req.params.username })
+        let liveUser = await userModel.findOne({ email: req.user })
+        let me = false
+        if (email === user.email) {
+            me = true
+        }
+        let post = await postModel.find({ userId: user._id }).populate("userId")
         post.reverse()
-        res.render('profile', { user, post })
+        res.render('profile', { user, post, me, liveUser })
     }
     catch (err) {
         res.send(err.message).status(500)
@@ -92,13 +98,13 @@ module.exports.profileController = async (req, res) => {
 }
 
 module.exports.editController = async (req, res) => {
-    try{
+    try {
         let token = req.cookies.token
-    let email = jwt.verify(token, process.env.JWT_KEY).email
-    let user = await userModel.findOne({ email })
-    res.render("edit-profile", { user})
+        let email = jwt.verify(token, process.env.JWT_KEY).email
+        let liveUser = await userModel.findOne({ email: req.user })
+        res.render("edit-profile", { liveUser })
     }
-    catch(err){
+    catch (err) {
         res.send(err.message).status(500)
     }
 }
@@ -108,17 +114,17 @@ module.exports.updateController = async (req, res) => {
         let { name, bio } = req.body;
         if (req.file) {
             let picMimeType = req.file.mimetype
-            
-            let profilePic = await sharp(req.file.buffer).resize(480,480).rotate().toBuffer()
-            let createdPost = await postModel.create({userId:req.params.userId,status:"updated the profile picture",picture:profilePic,})
-            let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio, picMimeType, profilePic },{new:true})
+
+            let profilePic = await sharp(req.file.buffer).resize(480, 480).rotate().toBuffer()
+            let createdPost = await postModel.create({ userId: req.params.userId, status: "updated the profile picture", picture: profilePic, })
+            let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio, picMimeType, profilePic }, { new: true })
             await user.posts.push(createdPost._id)
             await user.save()
-            res.redirect("/user/profile")
+            res.redirect(`/user/profile/${user.username}`)
         }
         else {
-            await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio })
-            res.redirect("/user/profile")
+            let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio }, { new: true })
+            res.redirect(`/user/profile/${user.username}`)
 
         }
 

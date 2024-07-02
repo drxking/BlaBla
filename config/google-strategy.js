@@ -1,7 +1,12 @@
 const passport = require('passport');
 const log = require('debug')("development:Google-Strategy")
-var GoogleStrategy = require('passport-google-oauth20');
+const GoogleStrategy = require('passport-google-oauth20');
+
+
 const { userModel } = require('../models/user-model');
+const { UserName } = require('../utils/username');
+
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -13,24 +18,26 @@ passport.use(new GoogleStrategy({
             let userId = profile.id
             let userName = profile.displayName
             let userEmail = profile._json.email
-            let userPicture = profile._json.picture
             let user = await userModel.findOne({ email: userEmail })
             if (user) {
                 let oauthField = user.oauthId;
                 if (!oauthField) {
-                    await userModel.findOneAndUpdate({ email: user.email }, { oauthId: userId, oauthProfilePic: userPicture })
+                    await userModel.findOneAndUpdate({ email: user.email }, { oauthId: userId })
                 }
             }
             else {
+                let username = UserName(userName)
                 await userModel.create({
                     name: userName,
                     email: userEmail,
-                    oauthId: userId
+                    oauthId: userId,
+                    username: username
                 })
+                console.log("hello")
             }
         }
         catch (err) {
-            res.send(err.message).status(500)
+            console.log(err)
         }
     }
 ));

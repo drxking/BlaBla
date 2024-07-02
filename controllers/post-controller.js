@@ -4,7 +4,8 @@ const path = require("path")
 const { compress } = require("../utils/sharp")
 module.exports.createController = async (req, res) => {
     let user = await userModel.findOne({ email: req.params.user })
-    res.render("create-post", { user })
+    let liveUser = await userModel.findOne({ email: req.user })
+    res.render("create-post", { user, liveUser })
 }
 
 module.exports.uploadController = async (req, res) => {
@@ -13,7 +14,7 @@ module.exports.uploadController = async (req, res) => {
         let description = req.body.description;
         let user = await userModel.findOne({ email })
         if (req.file) {
-            let compressed = await compress(req.file.buffer,720)
+            let compressed = await compress(req.file.buffer, 720)
             let post = await postModel.create({
                 userId: user.id,
                 description,
@@ -22,7 +23,7 @@ module.exports.uploadController = async (req, res) => {
             })
             await user.posts.push(post._id)
             await user.save()
-            res.redirect('/user/profile');
+            res.redirect(`/user/profile/${user.username}`);
         }
         else {
             let post = await postModel.create({
@@ -31,7 +32,7 @@ module.exports.uploadController = async (req, res) => {
             })
             await user.posts.push(post._id)
             await user.save()
-            res.redirect('/user/profile');
+            res.redirect(`/user/profile/${user.username}`);
         }
 
     }
@@ -46,5 +47,5 @@ module.exports.deleteController = async (req, res) => {
     let user = await userModel.findOne({ _id: post.userId })
     await user.posts.pop(post._id)
     await user.save()
-    res.redirect("/user/profile")
+    res.redirect(`/user/profile/${user.username}`)
 }

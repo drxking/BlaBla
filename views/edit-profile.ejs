@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlaBla - <%=user.name%>
+    <title>BlaBla - <%liveUser.name%>
     </title>
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/output.css">
@@ -15,10 +15,10 @@
 
 <body class="bg-[#111] text-white p-2 flex flex-col items-center">
     <main class="w-full max-w-md mb-14">
-        <form action="/user/update/<%=user._id%>" class="w-full" method="post" enctype="multipart/form-data">
+        <form action="/user/update/<%=liveUser._id%>" class="w-full" method="post" enctype="multipart/form-data">
 
 
-            <h1 class="border-b border-gray-700 py-2 flex items-center gap-4 text-xl"><a href="/user/profile"><i
+            <h1 class="border-b border-gray-700 py-2 flex items-center gap-4 text-xl"><a href="/user/profile/<%=liveUser.username%>"><i
                         class="ri-arrow-left-line text-3xl"></i></a>Edit
                 Profile</h1>
 
@@ -29,7 +29,7 @@
                 </p>
                 <img id="imageDisplay"
                     class="w-32 h-32 object-cover rounded-full  mt-4 border border-gray-700 bg-green-300"
-                    src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>">
+                    src="data:<%=liveUser.picMimeType%>;base64,<%=(liveUser.profilePic).toString('base64')%>">
                 <input class="real-file hidden" name="profilePic" type="file">
                 <div class="flex items-center mt-4">
                     <p
@@ -41,7 +41,7 @@
             <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
                 <h1 class="font-semibold text-xl mt-2 w-full text-left">Change Name</h1>
                 <input type="text" name="name" class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md"
-                    value="<%=user.name%>">
+                    value="<%=liveUser.name%>">
                 <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can chnage your name anytime you
                     want.
                 </p>
@@ -49,7 +49,7 @@
             <div class="bio p-2 flex flex-col items-center border-b border-gray-700 pb-8">
                 <h1 class="font-semibold text-xl mt-2 w-full text-left">Bio</h1>
                 <textarea type="text" name="bio"
-                    class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md h-24 resize-none"><%=user.bio%></textarea>
+                    class="w-full p-2 bg-transparent border border-gray-700 my-2 rounded-md h-24 resize-none"><%=liveUser.bio%></textarea>
                 <p class="w-full text-xs text-gray-600 ml-2 leading-none">• You can describe yourself in Bio to
                     make
                     First

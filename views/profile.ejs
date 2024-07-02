@@ -2,248 +2,327 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlaBla - <%=user.name%>
-    </title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="/css/output.css">
-    <link rel="stylesheet" href="/css/essential.css">
-    <style>
-        .profile-setting {
-            right: -100%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlaBla - <%=user.name%>
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/output.css" />
+  <link rel="stylesheet" href="/css/essential.css" />
+  <style>
+    .profile-setting {
+      right: -100%;
+    }
+  </style>
 </head>
 
 <body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
-    <main class="w-full max-w-xl relative">
-        <%-include("footer.ejs")%>
+  <main class="w-full max-w-xl relative">
+    <%-include("footer.ejs")%>
+      <div
+        class="profile-setting h-screen w-full fixed bg-[#111] right-[-200%] z-20 md:max-w-sm duration-300 border-x border-gray-900">
+        <nav class="flex gap-4 items-center border-b border-gray-700 px-4 py-3">
+          <div class="back-btn cursor-pointer">
+            <i class="ri-arrow-left-line text-2xl"></i>
+          </div>
+          <h1 class="text-xl">Profile Setting</h1>
+        </nav>
+        <ul>
+          <li
+            class="logout-btn text-red-500 border-b border-gray-700 font-semibold py-2 px-8 text-lg flex gap-2 items-center cursor-pointer">
+            <i class="ri-logout-box-r-line text-xl"></i>Logout
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative top h-32 w-ful">
+        <img src="/images/cover-pic.png" class="h-full w-full object-cover object-top lg:rounded-b-3xl" />
+        <div
+          class="profile absolute h-32 w-32 shadow-md rounded-full left-1/2 -translate-x-1/2 top-1/2 after:absolute after:w-[106%] after:h-[106%] after:bg-[linear-gradient(45deg,#FFB900,#FF4E26,#D300C5)] after:-z-10 after:rounded-full after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2">
+          <img class="w-full h-full border-2 border-gray-700 object-cover rounded-full"
+            src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>" />
+        </div>
+      </div>
+      <h1 class="mt-20 text-2xl font-semibold w-full text-center leading-none">
+        <%=user.name%>
+      </h1>
+      <p class="w-full text-center text-gray-200 leading-tight text-sm mt-2 px-10">
+        <%user.bio.split("\n").forEach((elm)=>{%> <%=elm%><br />
+            <%})%>
+      </p>
+      <%if(me){%>
+        <div class="buttons w-full flex justify-center items-center max-w-sm gap-1 px-0 mt-5 m-auto">
+          <a href="/user/edit" class="inline-block w-full">
+            <button
+              class="bg-blue-600 w-full tracking-tight text-white text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+              <i class="text-lg leading-tight ri-quill-pen-fill"></i>Edit profile
+            </button>
+          </a>
+          <a href="/post/create/<%=user.email%>" class="inline-block w-full"><button
+              class="bg-gray-600 w-full tracking-tight text-white text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+              <i class="text-lg leading-tight ri-add-line"></i>Create Post
+            </button></a>
+          <button
+            class="bg-gray-600 profile-setting-btn tracking-tight text-white px-2 w-10 text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+            <i class="text-xl ri-more-2-fill rotate-90"></i>
+          </button>
+        </div>
+        <%}else{%>
+          <div class="buttons w-full flex justify-center items-center max-w-sm gap-1 px-0 mt-5 m-auto">
+
+            <button
+              class="follow bg-blue-600 w-full tracking-tight text-white text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+              Follow
+            </button>
+            <a href="" class="inline-block w-full"><button
+                class="bg-gray-600 w-full tracking-tight text-white text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+                Message
+              </button></a>
+          </div>
+
+          <%}%>
+
+
+
             <div
-                class="profile-setting h-screen w-full fixed bg-[#111] right-[-200%] z-20 md:max-w-sm duration-300 border-x border-gray-900">
-                <nav class="flex gap-4 items-center border-b border-gray-700 px-4 py-3">
-                    <div class="back-btn cursor-pointer">
-                        <i class="ri-arrow-left-line text-2xl "></i>
-                    </div>
-                    <h1 class="text-xl">Profile Setting</h1>
-                </nav>
-                <ul>
-                    <li
-                        class="logout-btn text-red-500 border-b border-gray-700 font-semibold py-2 px-8  text-lg flex gap-2 items-center cursor-pointer">
-                        <i class="ri-logout-box-r-line text-xl"></i>Logout
-                    </li>
-                </ul>
-
-            </div>
-
-
-            <div class=" relative top h-32 w-ful">
-                <img src="/images/cover-pic.png" class="h-full w-full object-cover object-top lg:rounded-b-3xl">
-                <div
-                    class="profile absolute h-32 w-32 shadow-md rounded-full left-1/2 -translate-x-1/2 top-1/2  after:absolute after:w-[106%] after:h-[106%] after:bg-[linear-gradient(45deg,#FFB900,#FF4E26,#D300C5)] after:-z-10 after:rounded-full  after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2">
-                    <img class="w-full h-full border-2 border-gray-700 object-cover rounded-full"
-                        src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>">
+              class="mt-7 w-full bg-[#111] text-white min-h-[60vh] border-t border-gray-700 rounded-t-lg lg:rounded-none py-5 px-2 flex flex-col items-center">
+              <h1 class="text-2xl font-semibold py-1 px-2 w-full max-w-md">Posts</h1>
+              <!-- <hr class="border-gray-600"> -->
+              <div class="posts mt-4 mb-10 w-full max-w-md">
+                <%if(post.length>0){%> <%post.forEach((posts)=>{%>
+                    <div class="post border border-gray-700 rounded-xl mt-6">
+                      <div class="top px-4 py-3 flex items-center justify-between">
+                        <div class="left flex gap-2 items-center">
+                          <img src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"
+                            class="h-9 w-9 rounded-full object-cover" />
+                          <div class="right">
+                            <p class="font-semibold text-base leading-none">
+                              <%=posts.userId.name%>
+                                <span class="text-sm font-medium text-gray-300 leading-none">
+                                  <%if(posts.status){%>
+                                    <%=posts.status%>
+                                      <%}%>
+                                </span>
+                            </p>
+                            <p class="text-[10px] text-gray-300">
+                              <%=(posts.createdDate).toString().split(" ")[2]%>
+                    <%=(posts.createdDate).toString().split(" ")[1]%>
+                    <%=(posts.createdDate).toString().split(" ")[3]%>
+                  </p>
                 </div>
-            </div>
-            <h1 class="mt-20 text-2xl font-semibold w-full text-center leading-none">
-                <%=user.name%>
-            </h1>
-            <p class="w-full text-center text-gray-200 leading-tight text-sm mt-2 px-10">
-                <%user.bio.split("\n").forEach((elm)=>{%>
-                    <%=elm%><br>
-                        <%})%>
-            </p>
-            <div class="buttons w-full flex justify-center items-center max-w-sm gap-1 px-0 mt-5 m-auto">
-                <a href="/user/edit" class="inline-block w-full ">
-                    <button
-                        class="bg-blue-600 w-full tracking-tight text-white   text-sm capitalize h-10 flex items-center justify-center rounded-lg gap-1">
-                        <i class="text-lg leading-tight ri-quill-pen-fill"></i>Edit profile</button>
-                </a>
-                <a href="/post/create/<%=user.email%>" class="inline-block w-full"><button
-                        class="bg-gray-600 w-full tracking-tight text-white   text-sm capitalize h-10  flex items-center justify-center rounded-lg gap-1">
-                        <i class="text-lg leading-tight ri-add-line"></i>Create Post</button></a>
-                <button
-                    class="bg-gray-600 profile-setting-btn tracking-tight text-white px-2  w-10 text-sm capitalize h-10  flex items-center justify-center rounded-lg gap-1">
-                    <i class=" text-xl ri-more-2-fill rotate-90"></i></button>
-            </div>
-            <div
-                class=" mt-7 w-full bg-[#111] text-white min-h-[60vh] border-t border-gray-700 rounded-t-lg lg:rounded-none py-5 px-2 flex flex-col items-center">
-                <h1 class="text-2xl font-semibold py-1 px-2 w-full max-w-md">Posts</h1>
-                <!-- <hr class="border-gray-600"> -->
-                <div class="posts mt-4 mb-10 w-full max-w-md ">
-                    <%if(post.length>0){%>
-                        <%post.forEach((posts)=>{%>
-                            <div class="post border border-gray-700  rounded-xl mt-6 ">
-                                <div class="top px-4  py-3  flex items-center justify-between">
-                                    <div class="left flex gap-2 items-center  ">
-                                        <img src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"
-                                            class="h-9 w-9 rounded-full object-cover">
-                                        <div class="right">
-                                            <p class="font-semibold text-base leading-none">
-                                                <%=posts.userId.name%> <span
-                                                        class="text-sm font-medium text-gray-300 leading-none">
-                                                        <%if(posts.status){%>
-                                                            <%=posts.status%>
-                                                                <%}%>
-                                                    </span>
-                                            </p>
-                                            <p class="text-[10px] text-gray-300">
-                                                <%=(posts.createdDate).toString().split(" ")[2]%> <%=(posts.createdDate).toString().split(" ")[1]%> <%=(posts.createdDate).toString().split(" ")[3]%>
-                                        </p>
-                                    </div>
+              </div>
+              <%if(me){%>
+
+              <div class=" relative">
+                                <i class="more ri-more-2-fill cursor-pointer text-xl"> </i>
+                                <div
+                                  class="menu w-28 top-5 rounded-xl right-5 bg-[#111] border scale-0 border-gray-500 origin-top-right duration-200 absolute z-10 p-3">
+                                  <p class="text-xs text-gray-500 pb-1">Menu</p>
+                                  <input type="text" class="hidden" value="<%=posts._id%>" />
+                                  <hr class="border-gray-600" />
+                                  <button
+                                    class="delete-btn text-red-500 pt-1 md:text-base text-xl inline-block w-full text-left">
+                                    Delete
+                                  </button>
+                                  <a href="/post/edit<%=post._id%>">
+                                    <button class=" text-white py-1 md:text-base text-xl inline-block w-full text-left">
+                                      Edit
+                                    </button>
+                                  </a>
                                 </div>
-                                <div class=" relative ">
-                                    <i class=" more ri-more-2-fill cursor-pointer text-xl">
-                                                    </i>
-                                                    <div
-                                                        class="menu w-28 top-5 rounded-xl right-5 bg-[#111] border scale-0 border-gray-500 origin-top-right duration-200 absolute z-10 p-3">
-                                                        <p class="text-xs text-gray-500 pb-1">Menu</p>
-                                                        <input type="text" class="hidden" value="<%=posts._id%>">
-                                                        <hr class="border-gray-600">
-                                                        <button
-                                                            class="delete-btn text-red-500 pt-1 md:text-base text-xl inline-block w-full text-left">Delete
-                                                        </button>
-                                                        <a href="/post/edit<%=post._id%>">
-                                                            <button
-                                                                class="delete-btn text-white py-1 md:text-base text-xl inline-block w-full text-left">Edit
-                                                            </button>
-                                                        </a>
-                                                    </div>
-                                        </div>
-                                    </div>
-                                    <div class="desc px-4 pb-2">
-                                        <p class="leading-tight text-sm">
-                                            <%if(posts.description){%>
-                                                <%posts.description.split("\n").forEach((desc)=>{%>
-                                                    <%=desc%> <br>
-                                                        <%})%>
-                                                            <%}%>
-                                        </p>
-                                    </div>
-                                    <%if(posts.picture.length>0){%>
-                                        <div class="image flex items-center justify-center w-full ">
-                                            <%if(posts.status){%>
-                                                <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
-                                                    class="w-[80%] mb-2 object-cover rounded-full">
-                                                <%}else{%>
-                                                    <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
-                                                        class="border-y border-gray-700 w-full margin-auto object-cover">
-                                                    <%}%>
-                                        </div>
-                                        <%}%>
-                                            <div class="buttons flex items-center gap-4 p-2 border-t border-gray-700">
-                                                <div class="text-3xl  like"><i class="ri-service-fill text-red-500"></i></div>
-                                                <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
-                                                <div class="text-3xl  share"><i class="ri-share-forward-line"></i></div>
-                                            </div>
-                                </div>
-                                <%})%>
-                                    <%}else{%>
-                                        <p class="text-gray-500 text-sm ml-2">You don't have any post to Show!</p>
-                                        <%}%>
+                          </div>
+                          <%}%>
+                        </div>
+                        <div class="desc px-4 pb-2">
+                          <p class="leading-tight text-sm">
+                            <%if(posts.description){%>
+                              <%posts.description.split("\n").forEach((desc)=>{%> <%=desc%>
+                                  <br />
+                                  <%})%>
+                                    <%}%>
+                          </p>
+                        </div>
+                        <%if(posts.picture.length>0){%>
+                          <div class="image flex items-center justify-center w-full">
+                            <%if(posts.status){%>
+                              <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
+                                class="w-[80%] mb-2 object-cover rounded-full" />
+                              <%}else{%>
+                                <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
+                                  class="border-y border-gray-700 w-full margin-auto object-cover" />
+                                <%}%>
+                          </div>
+                          <%}%>
+                            <div class="buttons flex items-center gap-4 p-2 border-t border-gray-700">
+                              <div class="text-3xl like">
+                                <i class="ri-service-fill text-red-500"></i>
+                              </div>
+                              <div class="text-3xl comment"><i class="ri-chat-3-line"></i></div>
+                              <div class="text-3xl share">
+                                <i class="ri-share-forward-line"></i>
+                              </div>
                             </div>
-                </div>
-    </main>
-    <div
-        class="delete-popup z-10 w-full max-w-xl fixed flex  flex-col items-center text-white py-14 duration-300 rounded-t-3xl bottom-0 bg-[#333] translate-y-[100%] scale-50">
-        <h1 class="text-2xl font-semibold">Are you sure?</h1>
-        <p class="text-center text-xs text-gray-500 px-14 py-1 leading-none">By confirmimg this. Your post will be
-            deleted permanently.</p>
-        <div class="buttons w-full flex justify-center items-center max-w-sm gap-3 px-2 mt-5 m-auto">
-            <button
-                class="delete-cancel bg-blue-600 w-full tracking-tight text-white   text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">Cancel</button>
-            <a href="#" class="delete-link inline-block w-full"><button
-                    class="bg-red-600 w-full tracking-tight text-white text-xl capitalize h-10  flex items-center justify-center rounded-lg gap-1">Delete</button></a>
-
-        </div>
+                      </div>
+                      <%})%>
+                        <%}else{%>
+                          <p class="text-gray-500 text-sm ml-2">
+                            You don't have any post to Show!
+                          </p>
+                          <%}%>
+                    </div>
+              </div>
+  </main>
+  <div
+    class="delete-popup z-10 w-full max-w-xl fixed flex flex-col items-center text-white py-14 duration-300 rounded-t-3xl bottom-0 bg-[#333] translate-y-[100%] scale-50">
+    <h1 class="text-2xl font-semibold">Are you sure?</h1>
+    <p class="text-center text-xs text-gray-500 px-14 py-1 leading-none">
+      By confirmimg this. Your post will be deleted permanently.
+    </p>
+    <div class="buttons w-full flex justify-center items-center max-w-sm gap-3 px-2 mt-5 m-auto">
+      <button
+        class="delete-cancel bg-blue-600 w-full tracking-tight text-white text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+        Cancel
+      </button>
+      <a href="#" class="delete-link inline-block w-full"><button
+          class="bg-red-600 w-full tracking-tight text-white text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+          Delete
+        </button></a>
     </div>
-    <div
-        class="logout-popup z-30 w-full max-w-xl fixed flex  flex-col items-center text-white py-14 duration-300 translate-y-[100%] scale-50 rounded-t-3xl bottom-0 bg-[#333]">
-        <h1 class="text-3xl font-semibold">Are you sure?</h1>
-        <p class="text-center text-sm text-gray-300 px-14 py-1 leading-none">You want to Logout</p>
-        <div class="buttons w-full flex justify-center items-center max-w-sm gap-3 px-2 mt-5 m-auto">
-            <button
-                class="logout-cancel bg-blue-600 w-full tracking-tight text-white   text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">Cancel</button>
-            <a href="/user/logout" class="logout-link inline-block w-full"><button
-                    class="bg-red-600 w-full tracking-tight text-white   text-xl capitalize h-10  flex items-center justify-center rounded-lg gap-1">Logout</button></a>
-
-        </div>
+  </div>
+  <div
+    class="logout-popup z-30 w-full max-w-xl fixed flex flex-col items-center text-white py-14 duration-300 translate-y-[100%] scale-50 rounded-t-3xl bottom-0 bg-[#333]">
+    <h1 class="text-3xl font-semibold">Are you sure?</h1>
+    <p class="text-center text-sm text-gray-300 px-14 py-1 leading-none">
+      You want to Logout
+    </p>
+    <div class="buttons w-full flex justify-center items-center max-w-sm gap-3 px-2 mt-5 m-auto">
+      <button
+        class="logout-cancel bg-blue-600 w-full tracking-tight text-white text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+        Cancel
+      </button>
+      <a href="/user/logout" class="logout-link inline-block w-full"><button
+          class="bg-red-600 w-full tracking-tight text-white text-xl capitalize h-10 flex items-center justify-center rounded-lg gap-1">
+          Logout
+        </button></a>
     </div>
+  </div>
 
-    <script>
-        let menuBtn = document.querySelectorAll(".more")
-        let deleteDialog = document.querySelector(".delete-popup")
-        let deleteBtn = document.querySelectorAll(".delete-btn")
-        menuBtn.forEach((more) => {
-            let sts = false
-            more.addEventListener("click", () => {
-                let parent = more.parentElement
-                let menu = parent.querySelector(".menu")
-                let id = menu.querySelector("input").value
+  <script>
 
-                if (!sts) {
+    <%if (me) {%>
 
-                    menu.classList.remove("scale-0")
-                    menu.classList.add("scale-1")
+      let menuBtn = document.querySelectorAll(".more");
+      let deleteDialog = document.querySelector(".delete-popup");
+      let deleteBtn = document.querySelectorAll(".delete-btn");
+      menuBtn.forEach((more) => {
+        let sts = false;
+        more.addEventListener("click", () => {
+          let parent = more.parentElement;
+          let menu = parent.querySelector(".menu");
+          let id = menu.querySelector("input").value;
 
+          if (!sts) {
+            menu.classList.remove("scale-0");
+            menu.classList.add("scale-1");
 
-                    deleteBtn.forEach((dlte) => {
-                        dlte.addEventListener("click", () => {
-                            deleteDialog.classList.remove("translate-y-[100%]")
-                            deleteDialog.classList.remove("scale-50")
+            deleteBtn.forEach((dlte) => {
+              dlte.addEventListener("click", () => {
+                deleteDialog.classList.remove("translate-y-[100%]");
+                deleteDialog.classList.remove("scale-50");
 
+                deleteDialog
+                  .querySelector(".buttons>.delete-link")
+                  .removeAttribute("href");
+                deleteDialog
+                  .querySelector(".buttons>.delete-link")
+                  .setAttribute("href", `/post/delete/${id}`);
 
-                            deleteDialog.querySelector(".buttons>.delete-link").removeAttribute("href")
-                            deleteDialog.querySelector(".buttons>.delete-link").setAttribute("href", `/post/delete/${id}`)
+                menu.classList.add("scale-0");
+                menu.classList.remove("scale-1");
+                sts = false;
+              });
+            });
+            let lte = document.querySelector(".delete-cancel");
+            lte.addEventListener("click", () => {
+              deleteDialog.classList.add("translate-y-[100%]");
+              deleteDialog.classList.add("scale-50");
+            });
 
-
-
-                            menu.classList.add("scale-0")
-                            menu.classList.remove("scale-1")
-                            sts = false
-                        })
-                    })
-                    let lte = document.querySelector(".delete-cancel")
-                    lte.addEventListener("click", () => {
-                        deleteDialog.classList.add("translate-y-[100%]")
-                        deleteDialog.classList.add("scale-50")
-                    });
-
-
-
-
-                    sts = true
-
-
-                }
-                else {
-                    menu.classList.add("scale-0")
-                    menu.classList.remove("scale-1")
-                    sts = false
-                }
-            })
-
-        })
-
-        let lte = document.querySelector(".delete-cancel")
-        lte.addEventListener("click", () => {
-            deleteDialog.classList.add("translate-y-[100%]")
-            deleteDialog.classList.add("scale-50")
+            sts = true;
+          } else {
+            menu.classList.add("scale-0");
+            menu.classList.remove("scale-1");
+            sts = false;
+          }
         });
+      });
+
+      let lte = document.querySelector(".delete-cancel");
+      lte.addEventListener("click", () => {
+        deleteDialog.classList.add("translate-y-[100%]");
+        deleteDialog.classList.add("scale-50");
+      });
+
+      let logoutBtn = document.querySelector(".logout-btn");
+      let logoutDialog = document.querySelector(".logout-popup");
+      let logoutCancel = document.querySelector(".logout-cancel");
+      logoutBtn.addEventListener("click", () => {
+        logoutDialog.classList.remove("translate-y-[100%]");
+        logoutDialog.classList.remove("scale-50");
+      });
+      logoutCancel.addEventListener("click", () => {
+        logoutDialog.classList.add("translate-y-[100%]");
+        logoutDialog.classList.add("scale-50");
+      });
+
+      let profileSetting = document.querySelector(".profile-setting");
+      let profileSettingBtn = document.querySelector(".profile-setting-btn");
+      let backBtn = document.querySelector(".back-btn");
+      let width = profileSetting.getBoundingClientRect().width;
+      profileSetting.style.right = `-${width}px`;
+
+      window.addEventListener("offline", function (event) {
+        profileSetting.style.right = `-${width}px`;
+      });
+
+      window.addEventListener("resize", () => {
+        let profileSetting = document.querySelector(".profile-setting");
+        width = profileSetting.getBoundingClientRect().width;
+        profileSetting.style.right = `-${width}px`;
+      });
+
+      profileSettingBtn.addEventListener("click", () => {
+        profileSetting.style.right = 0;
+        deleteDialog.classList.add("translate-y-[100%]");
+        deleteDialog.classList.add("scale-50");
+      });
+      backBtn.addEventListener("click", () => {
+        profileSetting.style.right = `-${width}px`;
+        logoutDialog.classList.add("translate-y-[100%]");
+        logoutDialog.classList.add("scale-50");
+      });
+
+    <%} else {%>
+
+      let followBtn = document.querySelector(".follow")
+      let followed = false;
+      followBtn.addEventListener("click", () => {
+        if (!followed) {
+          followBtn.style.backgroundColor = `rgb(75 85 99)`
+          followBtn.innerHTML = "Following"
+          console.log("Hello");
+          followed = true
+        }
+        else{
+          followBtn.style.backgroundColor = `rgb(37 99 235)`
+          followBtn.innerHTML = "Follow"
+          followed = false
+        }
+      })
+        <%}%>
 
 
-        let logoutBtn = document.querySelector(".logout-btn")
-        let logoutDialog = document.querySelector(".logout-popup")
-        let logoutCancel = document.querySelector(".logout-cancel")
-        logoutBtn.addEventListener("click", () => {
-            logoutDialog.classList.remove("translate-y-[100%]")
-            logoutDialog.classList.remove("scale-50")
-        })
-        logoutCancel.addEventListener("click", () => {
-            logoutDialog.classList.add("translate-y-[100%]")
-            logoutDialog.classList.add("scale-50")
-        })
 
 
 
@@ -251,46 +330,7 @@
 
 
 
-
-
-
-
-        let profileSetting = document.querySelector(".profile-setting")
-        let profileSettingBtn = document.querySelector(".profile-setting-btn")
-        let backBtn = document.querySelector(".back-btn")
-        let width = profileSetting.getBoundingClientRect().width
-        profileSetting.style.right = `-${width}px`
-
-        window.addEventListener('offline', function (event) {
-            profileSetting.style.right = `-${width}px`
-        });
-
-        window.addEventListener("resize", () => {
-            let profileSetting = document.querySelector(".profile-setting")
-            width = profileSetting.getBoundingClientRect().width
-            profileSetting.style.right = `-${width}px`
-
-        })
-
-        profileSettingBtn.addEventListener("click", () => {
-            profileSetting.style.right = 0
-            deleteDialog.classList.add("translate-y-[100%]")
-            deleteDialog.classList.add("scale-50")
-        })
-        backBtn.addEventListener("click", () => {
-            profileSetting.style.right = `-${width}px`
-            logoutDialog.classList.add("translate-y-[100%]")
-            logoutDialog.classList.add("scale-50")
-        })
-
-
-
-
-
-
-
-
-    </script>
+  </script>
 </body>
 
 </html>

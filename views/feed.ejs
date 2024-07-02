@@ -25,7 +25,7 @@
                 </a>
             </nav>
             <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2">
-                <a href="/user/profile" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover"
+                <a href="/user/profile/<%=user.username%>" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover"
                         src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
                 <a class="w-[90%] max-w-md" href="/post/create/<%=user.email%>"><input
                         placeholder="What's on your mind!" type="text"
@@ -37,21 +37,23 @@
                     <%post.forEach((posts)=>{%>
                         <div class="post border border-gray-700  rounded-xl overflow-hidden mt-6">
                             <div class="top px-4  py-3  flex items-center justify-between">
-                                <div class="left flex gap-2 items-center  ">
-                                    <img src="data:<%=posts.userId.picMimeType%>;base64,<%=(posts.userId.profilePic).toString('base64')%>"
-                                        class="h-9 w-9 object-cover inline-block rounded-full">
-                                    <div class="right">
-                                        <p class="font-semibold text-base leading-none">
-                                            <%=posts.userId.name%><span class="text-sm font-medium text-gray-300">
-                                                    <%if(posts.status){%>
-                                                        <%=posts.status%>
-                                                            <%}%>
-                                                </span>
-                                        </p>
-                                        <p class="text-[10px]  text-gray-300">
-                                            <%=(posts.createdDate).toString().split(" ")[2]%> <%=(posts.createdDate).toString().split(" ")[1]%> <%=(posts.createdDate).toString().split(" ")[3]%></p>
+                                <a href="/user/profile/<%=posts.userId.username%>">
+                                    <div class="left flex gap-2 items-center  ">
+                                        <img src="data:<%=posts.userId.picMimeType%>;base64,<%=(posts.userId.profilePic).toString('base64')%>"
+                                            class="h-9 w-9 object-cover inline-block rounded-full">
+                                        <div class="right">
+                                            <p class="font-semibold text-base leading-none">
+                                                <%=posts.userId.name%><span class="text-sm font-medium text-gray-300">
+                                                        <%if(posts.status){%>
+                                                            <%=posts.status%>
+                                                                <%}%>
+                                                    </span>
+                                            </p>
+                                            <p class="text-[10px]  text-gray-300">
+                                                <%=(posts.createdDate).toString().split(" ")[2]%> <%=(posts.createdDate).toString().split(" ")[1]%> <%=(posts.createdDate).toString().split(" ")[3]%></p>
+                                    </div>
                                 </div>
-                            </div>
+                                </a>
                             <!-- <i class=" ri-more-2-fill text-xl rotate-90"></i> -->
                                     </div>
                                     <div class="desc px-4 pb-2">

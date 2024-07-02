@@ -20,7 +20,7 @@ router.get("/login", loginController)
 router.post("/loginvalidate", loginValidateController)
 
 
-router.get("/profile", isLoggedIn, profileController)
+router.get("/profile/:username", isLoggedIn, profileController)
 
 router.get("/edit", isLoggedIn, editController)
 
