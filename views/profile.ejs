@@ -210,117 +210,98 @@
 
   <script>
 
-    <%if (me) {%>
+    let menuBtn = document.querySelectorAll(".more");
+    let deleteDialog = document.querySelector(".delete-popup");
+    let deleteBtn = document.querySelectorAll(".delete-btn");
+    menuBtn.forEach((more) => {
+      let sts = false;
+      more.addEventListener("click", () => {
+        let parent = more.parentElement;
+        let menu = parent.querySelector(".menu");
+        let id = menu.querySelector("input").value;
 
-      let menuBtn = document.querySelectorAll(".more");
-      let deleteDialog = document.querySelector(".delete-popup");
-      let deleteBtn = document.querySelectorAll(".delete-btn");
-      menuBtn.forEach((more) => {
-        let sts = false;
-        more.addEventListener("click", () => {
-          let parent = more.parentElement;
-          let menu = parent.querySelector(".menu");
-          let id = menu.querySelector("input").value;
+        if (!sts) {
+          menu.classList.remove("scale-0");
+          menu.classList.add("scale-1");
 
-          if (!sts) {
-            menu.classList.remove("scale-0");
-            menu.classList.add("scale-1");
+          deleteBtn.forEach((dlte) => {
+            dlte.addEventListener("click", () => {
+              deleteDialog.classList.remove("translate-y-[100%]");
+              deleteDialog.classList.remove("scale-50");
 
-            deleteBtn.forEach((dlte) => {
-              dlte.addEventListener("click", () => {
-                deleteDialog.classList.remove("translate-y-[100%]");
-                deleteDialog.classList.remove("scale-50");
+              deleteDialog
+                .querySelector(".buttons>.delete-link")
+                .removeAttribute("href");
+              deleteDialog
+                .querySelector(".buttons>.delete-link")
+                .setAttribute("href", `/post/delete/${id}`);
 
-                deleteDialog
-                  .querySelector(".buttons>.delete-link")
-                  .removeAttribute("href");
-                deleteDialog
-                  .querySelector(".buttons>.delete-link")
-                  .setAttribute("href", `/post/delete/${id}`);
-
-                menu.classList.add("scale-0");
-                menu.classList.remove("scale-1");
-                sts = false;
-              });
+              menu.classList.add("scale-0");
+              menu.classList.remove("scale-1");
+              sts = false;
             });
-            let lte = document.querySelector(".delete-cancel");
-            lte.addEventListener("click", () => {
-              deleteDialog.classList.add("translate-y-[100%]");
-              deleteDialog.classList.add("scale-50");
-            });
+          });
+          let lte = document.querySelector(".delete-cancel");
+          lte.addEventListener("click", () => {
+            deleteDialog.classList.add("translate-y-[100%]");
+            deleteDialog.classList.add("scale-50");
+          });
 
-            sts = true;
-          } else {
-            menu.classList.add("scale-0");
-            menu.classList.remove("scale-1");
-            sts = false;
-          }
-        });
+          sts = true;
+        } else {
+          menu.classList.add("scale-0");
+          menu.classList.remove("scale-1");
+          sts = false;
+        }
       });
+    });
 
-      let lte = document.querySelector(".delete-cancel");
-      lte.addEventListener("click", () => {
-        deleteDialog.classList.add("translate-y-[100%]");
-        deleteDialog.classList.add("scale-50");
-      });
+    let lte = document.querySelector(".delete-cancel");
+    lte.addEventListener("click", () => {
+      deleteDialog.classList.add("translate-y-[100%]");
+      deleteDialog.classList.add("scale-50");
+    });
 
-      let logoutBtn = document.querySelector(".logout-btn");
-      let logoutDialog = document.querySelector(".logout-popup");
-      let logoutCancel = document.querySelector(".logout-cancel");
-      logoutBtn.addEventListener("click", () => {
-        logoutDialog.classList.remove("translate-y-[100%]");
-        logoutDialog.classList.remove("scale-50");
-      });
-      logoutCancel.addEventListener("click", () => {
-        logoutDialog.classList.add("translate-y-[100%]");
-        logoutDialog.classList.add("scale-50");
-      });
+    let logoutBtn = document.querySelector(".logout-btn");
+    let logoutDialog = document.querySelector(".logout-popup");
+    let logoutCancel = document.querySelector(".logout-cancel");
+    logoutBtn.addEventListener("click", () => {
+      logoutDialog.classList.remove("translate-y-[100%]");
+      logoutDialog.classList.remove("scale-50");
+    });
+    logoutCancel.addEventListener("click", () => {
+      logoutDialog.classList.add("translate-y-[100%]");
+      logoutDialog.classList.add("scale-50");
+    });
 
-      let profileSetting = document.querySelector(".profile-setting");
-      let profileSettingBtn = document.querySelector(".profile-setting-btn");
-      let backBtn = document.querySelector(".back-btn");
-      let width = profileSetting.getBoundingClientRect().width;
+    let profileSetting = document.querySelector(".profile-setting");
+    let profileSettingBtn = document.querySelector(".profile-setting-btn");
+    let backBtn = document.querySelector(".back-btn");
+    let width = profileSetting.getBoundingClientRect().width;
+    profileSetting.style.right = `-${width}px`;
+
+    window.addEventListener("offline", function (event) {
       profileSetting.style.right = `-${width}px`;
+    });
 
-      window.addEventListener("offline", function (event) {
-        profileSetting.style.right = `-${width}px`;
-      });
+    window.addEventListener("resize", () => {
+      let profileSetting = document.querySelector(".profile-setting");
+      width = profileSetting.getBoundingClientRect().width;
+      profileSetting.style.right = `-${width}px`;
+    });
 
-      window.addEventListener("resize", () => {
-        let profileSetting = document.querySelector(".profile-setting");
-        width = profileSetting.getBoundingClientRect().width;
-        profileSetting.style.right = `-${width}px`;
-      });
+    profileSettingBtn.addEventListener("click", () => {
+      profileSetting.style.right = 0;
+      deleteDialog.classList.add("translate-y-[100%]");
+      deleteDialog.classList.add("scale-50");
+    });
+    backBtn.addEventListener("click", () => {
+      profileSetting.style.right = `-${width}px`;
+      logoutDialog.classList.add("translate-y-[100%]");
+      logoutDialog.classList.add("scale-50");
+    });
 
-      profileSettingBtn.addEventListener("click", () => {
-        profileSetting.style.right = 0;
-        deleteDialog.classList.add("translate-y-[100%]");
-        deleteDialog.classList.add("scale-50");
-      });
-      backBtn.addEventListener("click", () => {
-        profileSetting.style.right = `-${width}px`;
-        logoutDialog.classList.add("translate-y-[100%]");
-        logoutDialog.classList.add("scale-50");
-      });
 
-    <%} else {%>
-
-      let followBtn = document.querySelector(".follow")
-      let followed = false;
-      followBtn.addEventListener("click", () => {
-        if (!followed) {
-          followBtn.style.backgroundColor = `rgb(75 85 99)`
-          followBtn.innerHTML = "Following"
-          console.log("Hello");
-          followed = true
-        }
-        else{
-          followBtn.style.backgroundColor = `rgb(37 99 235)`
-          followBtn.innerHTML = "Follow"
-          followed = false
-        }
-      })
-        <%}%>
 
 
 
