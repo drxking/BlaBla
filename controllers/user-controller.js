@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const { postModel } = require("../models/post-model");
 const { compress } = require("../utils/sharp");
 require("dotenv").config()
+const sharp = require("sharp");
 
 module.exports.signupController = (req, res) => {
     try {
@@ -107,7 +108,8 @@ module.exports.updateController = async (req, res) => {
         let { name, bio } = req.body;
         if (req.file) {
             let picMimeType = req.file.mimetype
-            let profilePic = await compress(req.file.buffer, 480)
+            
+            let profilePic = await sharp(req.file.buffer).resize(480,480).rotate().toBuffer()
             let createdPost = await postModel.create({userId:req.params.userId,status:"updated the profile picture",picture:profilePic,})
             let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio, picMimeType, profilePic },{new:true})
             await user.posts.push(createdPost._id)

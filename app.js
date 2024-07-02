@@ -42,7 +42,6 @@ app.get("/", async (req, res) => {
                 return res.redirect("/feed")
             }
         }
-        console.log(token)
         res.redirect("/user/login")
     }
     catch (err) {

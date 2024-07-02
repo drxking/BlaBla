@@ -4,20 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>footer</title>
 </head>
 
 <body>
 
-    <div class="wrapper max-w-xl py-1 lg:rounded-t-3xl w-full fixed bottom-0 bg-[#222] border-t border-gray-600 flex items-center text-white justify-evenly">
+    <div
+        class="wrapper max-w-xl py-1 lg:rounded-t-3xl w-full fixed bottom-0 bg-[#222] border-t border-gray-600 flex items-center text-white justify-evenly">
         <a href="/feed"><i class=" lg:text-[25px] text-[30px] ri-home-line"></i></a>
         <a href="/post/create/<%=user.email%>"><i class=" lg:text-[25px]  text-[32px] ri-add-circle-line"></i></a>
-        <div class=" flex items-center justify-center relative rounded-full after:absolute after:h-[115%] after:w-[115%] after:bg-[linear-gradient(45deg,#FFB900,#FF4E26,#D300C5)] after:rounded-full after:-z-10">
-            <a href="/user/profile" class="lg:h-7  lg:w-7 h-9 w-9 inline-block"><img class="h-full w-full rounded-full object-cover"
-                src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
+        <div
+            class=" flex items-center justify-center relative rounded-full after:absolute after:h-[115%] after:w-[115%] after:bg-[linear-gradient(45deg,#FFB900,#FF4E26,#D300C5)] after:rounded-full after:-z-10">
+            <a href="/user/profile" class="lg:h-7  lg:w-7 h-9 w-9 inline-block"><img
+                    class="h-full w-full rounded-full object-cover"
+                    src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
         </div>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    window.addEventListener('offline', function (event) {
+        let div = tokro("<i class='ri-wifi-off-fill text-xl leading-none'></i> You are curruntly offline!")
+        document.querySelector("body").appendChild(div)
+        animation(div)
+        setTimeout(() => {
+            document.querySelector("body").removeChild(div)
+        }, 3000)
+
+    });
+    window.addEventListener('online', function (event) {
+        let div = tokro("<i class='ri-wifi-fill text-xl leading-none'></i> Back online!")
+        div.classList.remove("bg-red-500")
+        div.classList.add("bg-green-500")
+        document.querySelector("body").appendChild(div)
+        animation(div)
+        setTimeout(() => {
+            document.querySelector("body").removeChild(div)
+        }, 3000)
+    });
+
+
+    function tokro(sometext) {
+        let div = document.createElement("div")
+        div.classList.add("fixed")
+        div.classList.add("tokro")
+        div.classList.add("top-0")
+        div.classList.add("p-1")
+        div.classList.add("w-full")
+        div.classList.add("flex")
+        div.classList.add("items-center")
+        div.classList.add("justify-center")
+        div.classList.add("gap-2")
+        div.classList.add("text-sm")
+        div.classList.add("bg-red-500")
+        div.classList.add("text-white")
+        div.classList.add("text-center")
+        div.classList.add("opacity-0")
+        div.innerHTML = sometext
+        return div
+    }
+
+
+    function animation(div) {
+        let tl = gsap.timeline()
+        tl.to(div, {
+            opacity: 1,
+            duration: 0.3
+        })
+        tl.to(div, {
+            opacity: 0,
+            duration: 0.3,
+            delay: 2
+        })
+    }
+
+</script>
 
 </html>
