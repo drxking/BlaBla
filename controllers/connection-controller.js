@@ -1,0 +1,49 @@
+const { blacklistedModel } = require("../models/blacklisted-model")
+const { userModel } = require("../models/user-model")
+const jwt = require("jsonwebtoken")
+
+module.exports.followController = async (req, res) => {
+    try {
+        let liveUser = await userModel.findOne({ _id: req.params.liveUser })
+        if (req.user == liveUser.email) {
+            let user = await userModel.findOne({ _id: req.params.user })
+            await liveUser.following.push(req.params.user)
+            await liveUser.save()
+            await user.followers.push(req.params.liveUser)
+            await user.save()
+            res.redirect(`/user/profile/${user.username}`);
+        }
+        else {
+            let token = req.cookies.token
+            let email = jwt.verify(token, process.env.JWT_KEY).email
+            await blacklistedModel.create({ email })
+            res.send("You have Performed Authorized Activity And Been Blacklisted").status(401)
+        }
+    }
+    catch (err) {
+        res.send(err.message).status(500)
+    }
+}
+
+module.exports.unfollowController = async (req, res) => {
+    try {
+        let liveUser = await userModel.findOne({ _id: req.params.liveUser })
+        if (req.user == liveUser.email) {
+            let user = await userModel.findOne({ _id: req.params.user })
+            await liveUser.following.pop(req.params.user)
+            await liveUser.save()
+            await user.followers.pop(req.params.liveUser)
+            await user.save()
+            res.redirect(`/user/profile/${user.username}`);
+        }
+        else {
+            let token = req.cookies.token
+            let email = jwt.verify(token, process.env.JWT_KEY).email
+            await blacklistedModel.create({ email })
+            res.send("You have Performed Authorized Activity And Been Blacklisted").status(401)
+        }
+    }
+    catch (err) {
+        res.send(err.message).status(500)
+    }
+}

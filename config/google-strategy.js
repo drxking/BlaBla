@@ -33,11 +33,10 @@ passport.use(new GoogleStrategy({
                     oauthId: userId,
                     username: username
                 })
-                console.log("hello")
             }
         }
         catch (err) {
-            console.log(err)
+            log(err)
         }
     }
 ));

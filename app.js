@@ -14,8 +14,8 @@ const userRouter = require("./routes/user-router");
 const authRouter = require('./routes/auth-router')
 const postRouter = require("./routes/post-router")
 const feedRouter = require("./routes/feed-router")
+const connectionRouter = require("./routes/connection-router")
 const { validator, userModel } = require("./models/user-model")
-
 
 const app = express()
 
@@ -56,6 +56,8 @@ app.use("/auth", authRouter)
 app.use("/post", postRouter)
 
 app.use("/feed", feedRouter)
+
+app.use("/connection", connectionRouter)
 
 app.listen(process.env.PORT, () => {
     log(`Listening at port ${process.env.PORT}`)
