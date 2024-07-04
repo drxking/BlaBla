@@ -47,3 +47,15 @@ module.exports.unfollowController = async (req, res) => {
         res.send(err.message).status(500)
     }
 }
+
+
+
+module.exports.followersController = async (req, res) => {
+    let user = await userModel.findOne({username:req.params.user}).populate("followers")
+    res.render('followers',{user});
+}
+
+module.exports.followingController = async (req, res) => {
+    let user = await userModel.findOne({username:req.params.user}).populate("following")
+    res.render('following',{user});
+}

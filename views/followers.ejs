@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlaBla - <%=user.name%>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/output.css" />
+    <link rel="stylesheet" href="/css/essential.css" />
+    <style>
+        .profile-setting {
+            right: -100%;
+        }
+    </style>
+</head>
+
+<body class="bg-[#111] text-white overflow-x-hidden flex justify-center">
+    <main class="w-full max-w-md relative">
+        <nav class="flex gap-4 items-center border-b border-gray-700 py-2">
+            <a href="/user/profile/<%=user.username%>"><i class="ri-arrow-left-line text-2xl"></i></a>
+            <h2>
+                <%=user.name%>
+            </h2>
+        </nav>
+        <p class="px-4 py-2">Followers</p>
+        <div class="py-2">
+            <%if(user.followers.length > 0){%>
+                <%user.followers.forEach((follower)=>{%>
+                    <div class="cards rounded-md px-4 py-2 flex items-center justify-between">
+                        <a href="/user/profile/<%=follower.username%>">
+                            <div class="left flex items-center gap-3">
+                                <img src="data:<%=follower.picMimeType%>;base64,<%=(follower.profilePic).toString('base64')%>"
+                                    class="h-12 w-12 rounded-full object-cover" alt="">
+                                <div class="names">
+                                    <h2 class="text-sm"><%=follower.name%></h2>
+                                    <p class="text-xs text-gray-400"><%=follower.username%></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <%})%>
+            <%}else{%>
+                <p class="text-gray-400 px-4 text-xs">NoOne in Followers List</p>
+            <%}%>
+        </div>
+
+    </main>
+</body>
+
+</html>
