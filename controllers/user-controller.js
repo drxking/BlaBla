@@ -37,7 +37,7 @@ module.exports.signupValidateController = async (req, res) => {
             }
 
         }
-        let username = UserName(name)
+        let username = await UserName(name)
 
         let createdUser = await userModel.create({ name, username, email, password: hash })
         let token = jwt.sign({ email }, process.env.JWT_KEY)

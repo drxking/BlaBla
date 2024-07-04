@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="/css/essential.css">
 </head>
 
-<body class="bg-[#111] text-white overflow-x-hidden flex flex-col items-center ">
+<body class="bg-black md:bg-[#111] text-white overflow-x-hidden flex flex-col items-center ">
     <%-include("footer.ejs")%>
         <main class="w-full max-w-xl">
-            <nav class="flex justify-between items-center px-4 py-1">
+            <nav class="flex justify-between items-center px-4 py-1 bg-[#111]">
 
                 <div class="logo">
                     <a href="/feed"><img src="/images/favicon.png"
@@ -24,18 +24,18 @@
                     <i><i class="ri-github-fill text-[35px]"></i></i>
                 </a>
             </nav>
-            <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2">
+            <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2 bg-[#111]">
                 <a href="/user/profile/<%=user.username%>" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover"
                         src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
                 <a class="w-[90%] max-w-md" href="/post/create/<%=user.email%>"><input
                         placeholder="What's on your mind!" type="text"
                         class="px-4 h-full text-base placeholder:text-gray-700 bg-transparent border w-full border-gray-500 rounded-full pointer-events-none"></a>
             </div>
-            <div class=" w-full text-white min-h-[60vh] py-2 px-2 flex flex-col items-center">
+            <div class=" w-full text-white min-h-[60vh] flex flex-col items-center">
                 <!-- <hr class="border-gray-600"> -->
-                <div class="posts w-full max-w-md mb-14">
+                <div class="posts w-full max-w-lg mb-14">
                     <%post.forEach((posts)=>{%>
-                        <div class="post border border-gray-700  rounded-xl overflow-hidden mt-6">
+                        <div class="post border-y border-gray-700 overflow-hidden mt-2 md:bg-[#222] md:rounded-xl md:border-none bg-[#111]">
                             <div class="top px-4  py-3  flex items-center justify-between">
                                 <a href="/user/profile/<%=posts.userId.username%>">
                                     <div class="left flex gap-2 items-center  ">
@@ -72,11 +72,11 @@
                                                     class=" w-[80%] mb-2 object-cover rounded-full">
                                                 <%}else{%>
                                                     <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
-                                                        class="border-y border-gray-700 w-full margin-auto object-cover">
+                                                        class="border-t border-gray-700 w-full margin-auto object-cover">
                                                     <%}%>
                                         </div>
                                         <%}%>
-                                            <div class="buttons flex items-center gap-4 p-2">
+                                            <div class="buttons flex items-center gap-4 p-2 border-t border-gray-700">
                                                 <div class="text-3xl  like"><i class="ri-service-line"></i></div>
                                                 <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
                                                 <div class="text-3xl  share"><i class="ri-share-forward-line"></i></div>

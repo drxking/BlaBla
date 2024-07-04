@@ -26,7 +26,7 @@ passport.use(new GoogleStrategy({
                 }
             }
             else {
-                let username = UserName(userName)
+                let username = await UserName(userName)
                 await userModel.create({
                     name: userName,
                     email: userEmail,

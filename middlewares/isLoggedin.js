@@ -5,7 +5,6 @@ module.exports.isLoggedIn = async (req, res, next) => {
         let token = req.cookies.token
         if (token) {
             let checkBlackList = await blacklistedModel.find()
-            console.log(checkBlackList)
             let data = jwt.verify(token, process.env.JWT_KEY).email
             req.user = data
             for (i in checkBlackList) {
