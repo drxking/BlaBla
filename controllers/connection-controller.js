@@ -7,16 +7,19 @@ module.exports.followController = async (req, res) => {
         let liveUser = await userModel.findOne({ _id: req.params.liveUser })
         if (req.user == liveUser.email) {
             let user = await userModel.findOne({ _id: req.params.user })
+            if (liveUser.following.includes(user._id)) {
+                await blacklistedModel.create({ email: req.user })
+                return res.send("You have Performed Authorized Activity And Been Blacklisted").status(401)
+            }
             await liveUser.following.push(req.params.user)
             await liveUser.save()
             await user.followers.push(req.params.liveUser)
+            await user.notification.push(`${liveUser.name} started following you`)
             await user.save()
             res.redirect(`/user/profile/${user.username}`);
         }
         else {
-            let token = req.cookies.token
-            let email = jwt.verify(token, process.env.JWT_KEY).email
-            await blacklistedModel.create({ email })
+            await blacklistedModel.create({ email: req.user })
             res.send("You have Performed Authorized Activity And Been Blacklisted").status(401)
         }
     }
@@ -51,11 +54,11 @@ module.exports.unfollowController = async (req, res) => {
 
 
 module.exports.followersController = async (req, res) => {
-    let user = await userModel.findOne({username:req.params.user}).populate("followers")
-    res.render('followers',{user});
+    let user = await userModel.findOne({ username: req.params.user }).populate("followers")
+    res.render('followers', { user });
 }
 
 module.exports.followingController = async (req, res) => {
-    let user = await userModel.findOne({username:req.params.user}).populate("following")
-    res.render('following',{user});
+    let user = await userModel.findOne({ username: req.params.user }).populate("following")
+    res.render('following', { user });
 }

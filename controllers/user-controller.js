@@ -97,6 +97,15 @@ module.exports.profileController = async (req, res) => {
     }
 }
 
+
+module.exports.notificationController = async (req, res) => {
+    let user = await userModel.findOne({ username: req.params.username })
+    user.notification.reverse()
+    res.render("notification", { user })
+}
+
+
+
 module.exports.editController = async (req, res) => {
     try {
         let token = req.cookies.token
@@ -115,7 +124,7 @@ module.exports.updateController = async (req, res) => {
         if (req.file) {
             let picMimeType = req.file.mimetype
 
-            let profilePic = await sharp(req.file.buffer).resize(480, 480).rotate().toBuffer()
+            let profilePic = await compress(req.file.buffer, 480, 480)
             let createdPost = await postModel.create({ userId: req.params.userId, status: "updated the profile picture", picture: profilePic, })
             let user = await userModel.findOneAndUpdate({ _id: req.params.userId }, { name, bio, picMimeType, profilePic }, { new: true })
             await user.posts.push(createdPost._id)
@@ -138,4 +147,20 @@ module.exports.logoutController = async (req, res) => {
     res.clearCookie('token');
     req.flash("message", "Logged Out")
     res.redirect("/user/login")
+}
+
+
+
+
+
+module.exports.searchController = (req, res) => {
+    res.render("search")
+}
+
+module.exports.searchUserController = async (req, res) => {
+    let name = req.params.name
+    const users = await userModel.find({ name: { $regex: `^${name}`, $options: 'i' } });
+
+    return res.json(users)
+
 }

@@ -12,11 +12,13 @@
 
     <div
         class="wrapper max-w-xl py-1 lg:rounded-t-3xl w-full fixed bottom-0 bg-[#222] border-t border-gray-600 flex items-center text-white justify-evenly">
-        <a href="/feed"><i class=" lg:text-[25px] text-[30px] ri-home-line"></i></a>
-        <a href="/post/create/<%=liveUser.email%>"><i class=" lg:text-[25px]  text-[32px] ri-add-circle-line"></i></a>
+        <a href="/feed"><i class="  text-[25px] ri-home-line"></i></a>
+        <a href="/user/search"><i class="  text-[25px] ri-search-line"></i></a>
+
+        <a href="/post/create/<%=liveUser.email%>"><i class="   text-[27px] ri-add-circle-line"></i></a>
         <div
             class=" flex items-center justify-center relative rounded-full after:absolute after:h-[115%] after:w-[115%] after:bg-[linear-gradient(45deg,#FFB900,#FF4E26,#D300C5)] after:rounded-full after:-z-10">
-            <a href="/user/profile/<%=liveUser.username%>" class="lg:h-7  lg:w-7 h-9 w-9 inline-block"><img
+            <a href="/user/profile/<%=liveUser.username%>" class="h-7 w-7 inline-block"><img
                     class="h-full w-full rounded-full object-cover"
                     src="data:<%=liveUser.picMimeType%>;base64,<%=(liveUser.profilePic).toString('base64')%>"></a>
         </div>

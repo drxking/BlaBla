@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlaBla</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/essential.css">
+</head>
+
+<body class="bg-black md:bg-[#111] text-white overflow-x-hidden flex flex-col items-center ">
+    <main class="w-full max-w-xl">
+        <nav class="flex items-center gap-4">
+            <a href="/feed">
+                <i class="ri-arrow-left-line text-2xl"></i>
+            </a>
+            <h1>Notification</h1>
+        </nav>
+        <div class="list flex flex-col px-4">
+            <%user.notification.forEach((not)=>{%>
+                <p class="text-sm">
+                    <%=not%>
+                </p>
+                <%})%>
+
+        </div>
+    </main>
+</body>
+
+</html>

@@ -55,7 +55,10 @@ const userSchema = mongoose.Schema({
     bio: {
         type: String,
         default: ""
-    }
+    },
+    notification: [{
+        type: String
+    }]
 });
 
 function validator(data) {
