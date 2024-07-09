@@ -22,6 +22,7 @@ router.post("/loginvalidate", loginValidateController)
 
 router.get("/profile/:username", isLoggedIn, profileController)
 
+
 router.get("/:username/notification", notificationController)
 
 router.get("/edit", isLoggedIn, editController)
