@@ -12,6 +12,7 @@
 </head>
 
 <body class="bg-black md:bg-[#111] text-white overflow-x-hidden flex flex-col items-center ">
+    <%-include("footer")%>
     <main class="w-full max-w-xl">
         <nav class="px-1 pt-3">
 
@@ -22,30 +23,53 @@
             </div>
         </nav>
         <div class="hero px-4 py-0 flex flex-col">
-            <a href="/user/profile/username" class="w-full mt-2 flex items-center gap-2">
-                <div class="profile-pic w-14 rounded-full h-14 bg-green-200 overflow-hidden">
-                    <img src="https://i.pinimg.com/564x/55/8a/a2/558aa2a8d131cf29e18b5d938471ef32.jpg"
-                        class="w-full h-full object-cover">
-                </div>
-                <div class="name">
-                    <h1 class="text-lg leading-none">Sudip Acharya</h1>
-                    <p class="leading-none text-sm">@sudip51651</p>
-                </div>
-            </a>
+
         </div>
     </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-
-    let input = document.querySelector("#name")
+    
+    let input = document.querySelector("#name");
+    input.focus()
+    let clutter = "";
     input.addEventListener("input", () => {
-        axios.get(`/user/search/${input.value}`).then((response) => {
-            console.log(response)
-        }).catch((err) => {
-            console.log(err)
-        });
+
+        if (input.value != "") {
+            axios.get(`/user/search/${input.value}`).then((response) => {
+                clutter = ""
+                response.data.forEach(element => {
+                    let base64String = bufferToBase64(element.profilePic.data)
+                    clutter += `<a href="/user/profile/${element.username}" class="w-full mt-2 flex items-center gap-2">
+                        <div class="profile-pic w-14 rounded-full h-14 bg-green-200 overflow-hidden">
+                            <img src="data:${element.picMimeType};base64,${base64String}"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="name">
+                            <h1 class="text-lg leading-none">${element.name}</h1>
+                            <p class="leading text-gray-400 text-xs">${element.username}</p>
+                        </div>
+                    </a>`
+                    console.log(base64String)
+                });
+                document.querySelector(".hero").innerHTML = clutter
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+
+
     })
+
+    function bufferToBase64(buffer) {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+    }
 </script>
 
 </html>

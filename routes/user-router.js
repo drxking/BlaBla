@@ -31,8 +31,8 @@ router.post("/update/:userId", upload.single("profilePic"), updateController)
 
 router.get("/logout", logoutController)
 
-router.get("/search",searchController)
+router.get("/search",isLoggedIn,searchController)
 
-router.get("/search/:name",searchUserController)
+router.get("/search/:name",isLoggedIn,searchUserController)
 
 module.exports = router;

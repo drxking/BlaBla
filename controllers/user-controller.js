@@ -153,14 +153,20 @@ module.exports.logoutController = async (req, res) => {
 
 
 
-module.exports.searchController = (req, res) => {
-    res.render("search")
+module.exports.searchController = async (req, res) => {
+    let liveUser = await userModel.findOne({ email: req.user })
+    res.render("search",{liveUser})
 }
 
 module.exports.searchUserController = async (req, res) => {
     let name = req.params.name
-    const users = await userModel.find({ name: { $regex: `^${name}`, $options: 'i' } });
-
+    let users = ""
+    if (name[0] == "@") {
+        users = await userModel.find({ username: { $regex: `^${name}`, $options: 'i' } });
+    }
+    else {
+        users = await userModel.find({ name: { $regex: `^${name}`, $options: 'i' } });
+    }
     return res.json(users)
 
 }

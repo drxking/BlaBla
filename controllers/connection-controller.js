@@ -9,7 +9,7 @@ module.exports.followController = async (req, res) => {
             let user = await userModel.findOne({ _id: req.params.user })
             if (liveUser.following.includes(user._id)) {
                 await blacklistedModel.create({ email: req.user })
-                return res.send("You have Performed Authorized Activity And Been Blacklisted").status(401)
+                return res.send("You have Performed Unauthorized Activity And Been Blacklisted").status(401)
             }
             await liveUser.following.push(req.params.user)
             await liveUser.save()
