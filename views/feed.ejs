@@ -20,12 +20,14 @@
                     <a href="/feed"><img src="/images/favicon.png"
                             class="h-14 w-14  invert mix-blend-screen brightness-125" alt=""></a>
                 </div>
-                <a href="user/<%=liveUser.username%>/notification" >
+                <a href="user/<%=liveUser.username%>/notification">
                     <i class="ri-notification-3-fill text-2xl"></i>
                 </a>
             </nav>
+
             <div class=" z-10 p-2 px-4 border-y border-gray-700 flex gap-2 bg-[#111]">
-                <a href="/user/profile/<%=user.username%>" class="w-12 h-12 inline-block"><img class="h-12 w-12 rounded-full object-cover"
+                <a href="/user/profile/<%=user.username%>" class="w-12 h-12 inline-block"><img
+                        class="h-12 w-12 rounded-full object-cover"
                         src="data:<%=user.picMimeType%>;base64,<%=(user.profilePic).toString('base64')%>"></a>
                 <a class="w-[90%] max-w-md" href="/post/create/<%=user.email%>"><input
                         placeholder="What's on your mind!" type="text"
@@ -35,7 +37,8 @@
                 <!-- <hr class="border-gray-600"> -->
                 <div class="posts w-full max-w-lg mb-14">
                     <%post.forEach((posts)=>{%>
-                        <div class="post border-y border-gray-700 overflow-hidden mt-2 md:bg-[#222] md:rounded-xl md:border-none bg-[#111]">
+                        <div
+                            class="post border-y border-gray-700 overflow-hidden mt-2 md:bg-[#222] md:rounded-xl md:border-none bg-[#111]">
                             <div class="top px-4  py-3  flex items-center justify-between">
                                 <a href="/user/profile/<%=posts.userId.username%>">
                                     <div class="left flex gap-2 items-center  ">
@@ -55,34 +58,36 @@
                                 </div>
                                 </a>
                             <!-- <i class=" ri-more-2-fill text-xl rotate-90"></i> -->
-                                    </div>
-                                    <div class="desc px-4 pb-2">
-                                        <p class="leading-tight text-sm">
-                                            <%if(posts.description){%>
-                                                <%posts.description.split("\n").forEach((desc)=>{%>
-                                                    <%=desc%> <br>
-                                                        <%})%>
-                                                            <%}%>
-                                        </p>
-                                    </div>
-                                    <%if(posts.picture.length>0){%>
-                                        <div class="image flex items-center justify-center w-full ">
-                                            <%if(posts.status){%>
-                                                <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
-                                                    class=" w-[80%] mb-2 object-cover rounded-full">
-                                                <%}else{%>
-                                                    <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
-                                                        class="border-t border-gray-700 w-full margin-auto object-cover">
-                                                    <%}%>
                                         </div>
-                                        <%}%>
-                                            <div class="buttons flex items-center gap-4 p-2 border-t border-gray-700">
-                                                <div class="text-3xl  like"><i class="ri-service-line"></i></div>
-                                                <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
-                                                <div class="text-3xl  share"><i class="ri-share-forward-line"></i></div>
+                                        <div class="desc px-4 pb-2">
+                                            <p class="leading-tight text-sm">
+                                                <%if(posts.description){%>
+                                                    <%posts.description.split("\n").forEach((desc)=>{%>
+                                                        <%=desc%> <br>
+                                                            <%})%>
+                                                                <%}%>
+                                            </p>
+                                        </div>
+                                        <%if(posts.picture.length>0){%>
+                                            <div class="image flex items-center justify-center w-full ">
+                                                <%if(posts.status){%>
+                                                    <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
+                                                        class=" w-[80%] mb-2 object-cover rounded-full">
+                                                    <%}else{%>
+                                                        <img src="data:<%=posts.mimetype%>;base64,<%=(posts.picture).toString('base64')%>"
+                                                            class="border-t border-gray-700 w-full margin-auto object-cover">
+                                                        <%}%>
                                             </div>
-                                </div>
-                                <%})%>
+                                            <%}%>
+                                                <div
+                                                    class="buttons flex items-center gap-4 p-2 border-t border-gray-700">
+                                                    <div class="text-3xl  like"><i class="ri-service-line"></i></div>
+                                                    <div class="text-3xl  comment"><i class="ri-chat-3-line"></i></div>
+                                                    <div class="text-3xl  share"><i class="ri-share-forward-line"></i>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    <%})%>
                             </div>
                         </div>
 
