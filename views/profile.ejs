@@ -188,7 +188,7 @@
                           <%}%>
                             <div class="buttons flex items-center gap-4 p-2 border-t border-gray-700/50">
                               <div class="text-3xl like">
-                                <i class="ri-service-fill text-red-500"></i>
+                                <i class="ri-service-line"></i>
                               </div>
                               <div class="text-3xl comment"><i class="ri-chat-3-line"></i></div>
                               <div class="text-3xl share">
@@ -333,6 +333,26 @@
       logoutDialog.classList.add("scale-50");
     });
 
+
+    let likes = document.querySelectorAll(".like")
+            likes.forEach((like) => {
+                let yy = "off"
+                like.addEventListener("click", () => {
+                    if (yy == "off") {
+                        let tl = gsap.timeline()
+                        tl.from(like, {
+                            scale: 0,
+                            duration: 0.15
+                        })
+                        like.innerHTML = `<i class="ri-service-fill text-red-500"></i>`
+                        yy = "on"
+                    }
+                    else {
+                        like.innerHTML = `<i class="ri-service-line"></i>`
+                        yy = "off"
+                    }
+                })
+            })
 
   </script>
 </body>
