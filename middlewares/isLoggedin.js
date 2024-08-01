@@ -14,7 +14,6 @@ module.exports.isLoggedIn = async (req, res, next) => {
                 }
             }
             if (data) return next()
-
         }
         req.flash("message", "You must be Logged in")
         res.redirect('/user/login');
